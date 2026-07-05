@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Article Publisher — Hridhaye Bir Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root{
+    --paper:#FAFAF7;--paper-2:#F2EFE8;--ink:#1B2A28;--ink-2:#2f3d3b;
+    --muted:#6b7572;--rule:#d8d4c8;--rule-soft:#e8e4d8;
+    --green:#2F5D50;--green-dark:#1f4338;--blue:#3A5A7C;--sand:#C9B68B;
+    --top-bar:#1f3a36;--danger:#a13838;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+
+  header.bar{
+    background:var(--top-bar);color:#e8e4d8;padding:14px 32px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  header.bar .brand{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;letter-spacing:.01em;
+  }
+  header.bar .brand em{font-style:italic;color:var(--sand);font-weight:500}
+  header.bar .meta{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#b8c4c1}
+
+  .shell{display:grid;grid-template-columns:480px 1fr;min-height:calc(100vh - 54px)}
+
+  /* FORM PANEL */
+  .form-panel{
+    background:#fff;border-right:1px solid var(--rule);
+    overflow-y:auto;max-height:calc(100vh - 54px);
+  }
+  .form-inner{padding:32px}
+  .form-panel h1{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;
+    color:var(--ink);margin-bottom:6px;letter-spacing:-.005em;
+  }
+  .form-panel .sub{color:var(--muted);font-size:13px;margin-bottom:28px;line-height:1.55}
+
+  .field{margin-bottom:20px}
+  .field label{
+    display:block;font-size:10.5px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--green);margin-bottom:8px;
+  }
+  .field input[type=text],.field select,.field textarea{
+    width:100%;border:1px solid var(--rule);background:var(--paper);
+    padding:10px 12px;font-family:'Source Serif 4',serif;font-size:15px;
+    color:var(--ink);border-radius:2px;transition:border .15s,background .15s;
+  }
+  .field input[type=text]:focus,.field select:focus,.field textarea:focus{
+    outline:none;border-color:var(--green);background:#fff;
+  }
+  .field textarea{font-family:'Source Serif 4',serif;line-height:1.6;resize:vertical;min-height:280px}
+  .field .hint{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .field .hint code{
+    background:var(--paper-2);padding:1px 5px;border-radius:2px;
+    font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--green-dark);
+  }
+
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+  .tools{
+    display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;
+  }
+  .tools button{
+    background:var(--paper-2);border:1px solid var(--rule);color:var(--ink-2);
+    padding:5px 10px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;
+    letter-spacing:.04em;cursor:pointer;border-radius:2px;transition:all .15s;
+  }
+  .tools button:hover{background:var(--green);color:#fff;border-color:var(--green)}
+
+  .actions{
+    position:sticky;bottom:0;background:#fff;padding:18px 0 4px;
+    border-top:1px solid var(--rule-soft);margin-top:8px;
+    display:flex;gap:10px;flex-direction:column;
+  }
+  button.primary{
+    background:var(--green);color:#fff;border:none;padding:14px 20px;
+    font-family:'Inter',sans-serif;font-size:12px;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:2px;
+    transition:background .15s;
+  }
+  button.primary:hover{background:var(--green-dark)}
+  button.secondary{
+    background:#fff;color:var(--ink);border:1px solid var(--rule);padding:11px 20px;
+    font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;
+    letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;
+    transition:all .15s;
+  }
+  button.secondary:hover{border-color:var(--green);color:var(--green)}
+
+  .toast{
+    position:fixed;bottom:24px;right:24px;background:var(--green-dark);color:#fff;
+    padding:14px 22px;font-size:13px;font-weight:500;border-radius:3px;
+    box-shadow:0 8px 24px rgba(0,0,0,.15);opacity:0;transform:translateY(8px);
+    transition:opacity .25s,transform .25s;pointer-events:none;z-index:50;
+  }
+  .toast.show{opacity:1;transform:translateY(0)}
+
+  /* PREVIEW PANEL */
+  .preview-panel{
+    background:var(--paper);overflow-y:auto;max-height:calc(100vh - 54px);
+  }
+  .preview-head{
+    background:#fff;border-bottom:1px solid var(--rule);padding:14px 32px;
+    display:flex;justify-content:space-between;align-items:center;
+    position:sticky;top:0;z-index:5;
+  }
+  .preview-head .lbl{
+    font-size:10.5px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--green);
+  }
+  .preview-head .tabs{display:flex;gap:4px}
+  .preview-head .tabs button{
+    background:transparent;border:1px solid var(--rule);
+    padding:6px 14px;font-size:11px;font-weight:600;letter-spacing:.08em;
+    color:var(--muted);cursor:pointer;text-transform:uppercase;
+    font-family:'Inter',sans-serif;border-radius:2px;transition:all .15s;
+  }
+  .preview-head .tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  .preview-body{padding:32px}
+
+  /* Article preview styles (matches site) */
+  .preview-article{
+    background:#fff;max-width:760px;margin:0 auto;padding:48px 40px;
+    border:1px solid var(--rule-soft);box-shadow:0 1px 0 rgba(0,0,0,.03);
+  }
+  .preview-article .kicker{
+    font-family:'Inter',sans-serif;font-size:10.5px;font-weight:700;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--green);
+    margin-bottom:20px;text-align:center;
+  }
+  .preview-article h1.title{
+    font-family:'Cormorant Garamond',serif;font-weight:500;font-size:42px;
+    line-height:1.08;letter-spacing:-.015em;text-align:center;margin-bottom:18px;
+  }
+  .preview-article h1.title em{font-style:italic;color:var(--green)}
+  .preview-article .dek{
+    font-family:'Source Serif 4',serif;font-style:italic;font-size:18px;
+    line-height:1.45;color:var(--ink-2);text-align:center;max-width:580px;
+    margin:0 auto 24px;
+  }
+  .preview-article .byline{
+    display:flex;justify-content:center;gap:18px;padding:12px 0;
+    border-top:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft);
+    font-size:10.5px;letter-spacing:.08em;color:var(--muted);
+    font-family:'Inter',sans-serif;margin-bottom:28px;
+  }
+  .preview-article .byline .author{color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.12em}
+  .preview-article .hero-img{
+    width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#0f2a26 0%,#1f4338 35%,#3a5a7c 75%,#86b3d6 100%);
+    margin-bottom:28px;
+  }
+  .preview-article .content{font-family:'Source Serif 4',serif}
+  .preview-article .content p{font-size:17px;line-height:1.7;color:var(--ink-2);margin-bottom:18px}
+  .preview-article .content p:first-of-type::first-letter{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:64px;
+    float:left;line-height:.85;padding:5px 12px 0 0;color:var(--green);font-style:italic;
+  }
+  .preview-article .content h2{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;
+    line-height:1.2;margin:36px 0 12px;
+  }
+  .preview-article .content h3{
+    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;
+    margin:24px 0 8px;
+  }
+  .preview-article .content blockquote{
+    margin:32px 0;padding:16px 0;border-top:2px solid var(--green);
+    border-bottom:1px solid var(--rule-soft);
+    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
+    font-size:24px;line-height:1.32;color:var(--ink);
+  }
+  .preview-article .content a{color:var(--green);border-bottom:1px solid rgba(47,93,80,.4)}
+  .preview-article .content ul,.preview-article .content ol{padding-left:22px;margin-bottom:18px}
+  .preview-article .content li{font-size:17px;line-height:1.7;color:var(--ink-2);margin-bottom:6px}
+  .preview-article .content code{background:var(--paper-2);padding:1px 5px;font-size:14px;border-radius:2px;font-family:ui-monospace,monospace}
+
+  /* HOMEPAGE SNIPPET preview */
+  .snippet-view{
+    background:#fff;max-width:760px;margin:0 auto;padding:32px;
+    border:1px solid var(--rule-soft);
+  }
+  .snippet-view h3{
+    font-family:'Inter',sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--green);
+    margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--rule);
+  }
+  .snippet-view pre{
+    background:var(--paper);border:1px solid var(--rule-soft);padding:18px;
+    font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.6;
+    color:var(--ink-2);overflow-x:auto;border-radius:2px;
+    white-space:pre-wrap;word-break:break-word;
+  }
+  .snippet-view .note{
+    margin-top:14px;font-size:13px;color:var(--muted);line-height:1.55;
+  }
+  .snippet-view .copy-btn{
+    margin-top:14px;
+  }
+
+  .upload-zone{
+    border:1.5px dashed var(--rule);background:var(--paper);
+    padding:14px;text-align:center;border-radius:2px;cursor:pointer;
+    transition:all .15s;
+  }
+  .upload-zone:hover{border-color:var(--green);background:#fff}
+  .upload-zone .icon{font-size:18px;color:var(--green);margin-bottom:4px}
+  .upload-zone .lbl{font-size:11.5px;color:var(--muted);font-weight:500}
+  .upload-zone input{display:none}
+
+  /* responsive */
+  @media (max-width:1000px){
+    .shell{grid-template-columns:1fr}
+    .form-panel{border-right:none;border-bottom:1px solid var(--rule);max-height:none}
+    .preview-panel{max-height:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="brand">Article <em>Publisher</em></div>
+  <div class="meta">Hridhaye Bir Singh · Editorial Tool</div>
+</header>
+
+<div class="shell">
+
+  <!-- FORM -->
+  <div class="form-panel">
+    <div class="form-inner">
+      <h1>Publish a new article</h1>
+      <p class="sub">Fill in the fields, write your piece in Markdown, then download the HTML file or copy the homepage listing snippet.</p>
+
+      <div class="field">
+        <label>Filename (slug)</label>
+        <input type="text" id="slug" placeholder="e.g. clean-grid" />
+        <div class="hint">No spaces or extension. Will be saved as <code>slug.html</code>.</div>
+      </div>
+
+      <div class="field">
+        <label>Title</label>
+        <input type="text" id="title" placeholder="e.g. Canada's Clean Grid Has a Rainy-Day Problem" />
+        <div class="hint">Wrap words in <code>*asterisks*</code> to italicize them in green accent.</div>
+      </div>
+
+      <div class="field">
+        <label>Dek / Subtitle</label>
+        <input type="text" id="dek" placeholder="A short italic subtitle that sits under the headline" />
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Category</label>
+          <select id="category">
+            <option>Politics &amp; Policy</option>
+            <option>Media &amp; Culture</option>
+            <option>Healthcare</option>
+            <option>Business</option>
+            <option>Essay</option>
+            <option>Opinion</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Year</label>
+          <input type="text" id="year" placeholder="2025" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Date (byline)</label>
+          <input type="text" id="date" placeholder="March 14, 2025" />
+        </div>
+        <div class="field">
+          <label>Read time</label>
+          <input type="text" id="readtime" placeholder="8 min read" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Hero image (optional)</label>
+        <label class="upload-zone" for="heroFile">
+          <div class="icon">⬆</div>
+          <div class="lbl" id="heroLbl">Click to upload — or leave empty for the gradient placeholder</div>
+          <input type="file" id="heroFile" accept="image/*"/>
+        </label>
+        <div class="hint">Image will be embedded directly into the HTML file (base64). Keep under ~500KB for best results.</div>
+      </div>
+
+      <div class="field">
+        <label>Hero caption (optional)</label>
+        <input type="text" id="caption" placeholder="What the image shows — credit / context" />
+      </div>
+
+      <div class="field">
+        <label>Body — Markdown</label>
+        <div class="tools">
+          <button type="button" onclick="insertMd('## ','')">H2</button>
+          <button type="button" onclick="insertMd('### ','')">H3</button>
+          <button type="button" onclick="insertMd('**','**')">Bold</button>
+          <button type="button" onclick="insertMd('*','*')">Italic</button>
+          <button type="button" onclick="insertMd('[','](https://)')">Link</button>
+          <button type="button" onclick="insertMd('\n> ','')">Pull quote</button>
+          <button type="button" onclick="insertMd('\n- ','')">List</button>
+          <button type="button" onclick="insertMd('\n\n***\n\n','')">Section break</button>
+        </div>
+        <textarea id="body" placeholder="Write your article in Markdown.
+
+A blockquote (starting with >) becomes a pull quote with the green accent rule.
+
+Use *** on its own line for a section break (• • •)."></textarea>
+        <div class="hint">Supports headings, lists, links, bold/italic, blockquotes, and section breaks.</div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="downloadArticle()">⬇ Download article HTML</button>
+        <button class="secondary" onclick="copySnippet()">📋 Copy homepage listing snippet</button>
+        <button class="secondary" onclick="saveDraft()">💾 Save draft locally</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-panel">
+    <div class="preview-head">
+      <div class="lbl">Live Preview</div>
+      <div class="tabs">
+        <button class="active" data-tab="article" onclick="setTab('article')">Article</button>
+        <button data-tab="snippet" onclick="setTab('snippet')">Homepage snippet</button>
+      </div>
+    </div>
+    <div class="preview-body">
+      <div id="tab-article" class="preview-article">
+        <div class="kicker" id="p-kicker">Politics &amp; Policy</div>
+        <h1 class="title" id="p-title">Your headline appears here</h1>
+        <div class="dek" id="p-dek">Your italic subtitle sits below.</div>
+        <div class="byline">
+          <span class="author">Hridhaye Bir Singh</span>
+          <span id="p-cat">Politics &amp; Policy</span>
+          <span id="p-date">—</span>
+          <span id="p-rt">—</span>
+        </div>
+        <div class="hero-img" id="p-hero"></div>
+        <div class="content" id="p-body">
+          <p>Start writing in the Markdown box to the left — your article will render here as you type.</p>
+        </div>
+      </div>
+
+      <div id="tab-snippet" class="snippet-view" style="display:none">
+        <h3>Paste this block into <code>index.html</code></h3>
+        <pre id="snippet-code">Fill in the title and slug to generate the snippet.</pre>
+        <div class="note">Find the <code>&lt;ul class="writing-list"&gt;</code> in your homepage and add this <code>&lt;li&gt;</code> in the order you want it to appear.</div>
+        <button class="secondary copy-btn" onclick="copySnippet()">📋 Copy to clipboard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Saved</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const fields = ['slug','title','dek','category','year','date','readtime','caption','body'];
+  let heroDataUrl = '';
+
+  // ---- Live preview ----
+  function processTitle(t){
+    return (t||'').replace(/\*(.+?)\*/g,'<em>$1</em>');
+  }
+  function render(){
+    const t = $('title').value || 'Your headline appears here';
+    const d = $('dek').value || 'Your italic subtitle sits below.';
+    const c = $('category').value;
+    const date = $('date').value || '—';
+    const rt = $('readtime').value || '—';
+    $('p-title').innerHTML = processTitle(t);
+    $('p-dek').textContent = d;
+    $('p-kicker').textContent = c;
+    $('p-cat').textContent = c;
+    $('p-date').textContent = date;
+    $('p-rt').textContent = rt;
+
+    const md = $('body').value || 'Start writing in the Markdown box to the left — your article will render here as you type.';
+    $('p-body').innerHTML = marked.parse(md);
+
+    if(heroDataUrl){
+      $('p-hero').style.background = `url(${heroDataUrl}) center/cover`;
+    }
+
+    renderSnippet();
+  }
+
+  function renderSnippet(){
+    const slug = $('slug').value || 'your-slug';
+    const t = $('title').value || 'Your headline';
+    const d = $('dek').value || 'Italic subtitle here.';
+    const c = $('category').value;
+    const y = $('year').value || new Date().getFullYear();
+    const snippet =
+`<li>
+  <a class="row" href="${slug}.html">
+    <span class="yr">${y}</span>
+    <div class="mid">
+      <h3>${escapeHtml(t)}</h3>
+      <p>${escapeHtml(d)}</p>
+    </div>
+    <span class="cat">${escapeHtml(c)}</span>
+    <span class="arr">→</span>
+  </a>
+</li>`;
+    $('snippet-code').textContent = snippet;
+  }
+
+  function escapeHtml(s){
+    return (s||'').replace(/[&<>"']/g, ch=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[ch]));
+  }
+
+  fields.forEach(f => $(f).addEventListener('input', render));
+
+  // ---- Hero upload ----
+  $('heroFile').addEventListener('change', e=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      heroDataUrl = ev.target.result;
+      $('heroLbl').textContent = `✓ ${file.name} (${Math.round(file.size/1024)} KB)`;
+      render();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // ---- Toolbar insertion ----
+  function insertMd(before, after){
+    const ta = $('body');
+    const s = ta.selectionStart, e = ta.selectionEnd;
+    const sel = ta.value.substring(s,e);
+    ta.value = ta.value.substring(0,s) + before + sel + after + ta.value.substring(e);
+    ta.focus();
+    ta.selectionStart = s + before.length;
+    ta.selectionEnd = s + before.length + sel.length;
+    render();
+  }
+
+  // ---- Tabs ----
+  function setTab(t){
+    document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab===t));
+    $('tab-article').style.display = t==='article' ? 'block' : 'none';
+    $('tab-snippet').style.display = t==='snippet' ? 'block' : 'none';
+  }
+
+  // ---- Toast ----
+  function toast(msg){
+    const t = $('toast'); t.textContent = msg; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 1800);
+  }
+
+  // ---- Draft save/load (localStorage) ----
+  function saveDraft(){
+    const data = {};
+    fields.forEach(f => data[f] = $(f).value);
+    data.heroDataUrl = heroDataUrl;
+    localStorage.setItem('hbs_draft', JSON.stringify(data));
+    toast('Draft saved');
+  }
+  function loadDraft(){
+    const raw = localStorage.getItem('hbs_draft');
+    if(!raw) return;
+    try{
+      const d = JSON.parse(raw);
+      fields.forEach(f => { if(d[f]) $(f).value = d[f]; });
+      if(d.heroDataUrl){ heroDataUrl = d.heroDataUrl; $('heroLbl').textContent = '✓ Restored from saved draft'; }
+      render();
+    }catch{}
+  }
+  loadDraft();
+
+  // ---- Copy snippet ----
+  function copySnippet(){
+    renderSnippet();
+    navigator.clipboard.writeText($('snippet-code').textContent);
+    toast('Homepage snippet copied');
+  }
+
+  // ---- Download article ----
+  function downloadArticle(){
+    const slug = ($('slug').value || 'untitled').trim().toLowerCase().replace(/[^a-z0-9-]/g,'-');
+    const title = $('title').value || 'Untitled';
+    const dek = $('dek').value || '';
+    const cat = $('category').value;
+    const date = $('date').value || '';
+    const rt = $('readtime').value || '';
+    const caption = $('caption').value || '';
+    const bodyHtml = marked.parse($('body').value || '');
+    const titleHtml = processTitle(title);
+    const heroStyle = heroDataUrl
+      ? `style="background:url('${heroDataUrl}') center/cover"`
+      : '';
+
+    const html = buildArticleHTML({slug, title, titleHtml, dek, cat, date, rt, caption, bodyHtml, heroStyle});
+
+    const blob = new Blob([html], {type:'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `${slug}.html`; a.click();
+    URL.revokeObjectURL(url);
+    toast(`Downloaded ${slug}.html`);
+  }
+
+  // ---- Article HTML template ----
+  function buildArticleHTML({slug, title, titleHtml, dek, cat, date, rt, caption, bodyHtml, heroStyle}){
+    const plainTitle = title.replace(/\*/g,'');
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>${escapeHtml(plainTitle)} — Hridhaye Bir Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#FAFAF7;--paper-2:#F2EFE8;--ink:#1B2A28;--ink-2:#2f3d3b;--muted:#6b7572;--rule:#d8d4c8;--rule-soft:#e8e4d8;--green:#2F5D50;--green-dark:#1f4338;--blue:#3A5A7C;--sand:#C9B68B;--top-bar:#1f3a36}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}a:hover{color:var(--green)}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 36px}
+  .top-bar{background:var(--top-bar);padding:11px 0}
+  .top-bar .row{display:flex;justify-content:flex-end;align-items:center;gap:36px;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#e8e4d8}
+  .top-bar a{color:#e8e4d8}.top-bar a:hover{color:#fff}
+  .top-bar .sep{opacity:.3;font-size:9px}
+  .logo-band{background:#fff;padding:32px 0;border-bottom:1px solid var(--rule-soft)}
+  .logo-band .row{display:flex;justify-content:center;align-items:center;gap:18px}
+  .mark{width:46px;height:46px;border:1.5px solid var(--green-dark);border-radius:50%;display:grid;place-items:center;position:relative}
+  .mark::before{content:"";position:absolute;inset:5px;border:1px solid var(--green-dark);border-radius:50%}
+  .mark span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--green-dark);font-style:italic;line-height:1}
+  .brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:38px;color:var(--green-dark);line-height:1}
+  .brand-name sup{font-size:11px;font-weight:500;color:var(--muted);margin-left:4px;position:relative;top:-14px}
+  nav.main{background:var(--ink);padding:16px 0}
+  nav.main .row{display:flex;justify-content:center;align-items:center;gap:48px;font-family:'Source Serif 4',serif;font-size:15.5px;color:#e8e4d8}
+  nav.main a{color:#e8e4d8;padding:4px 2px;position:relative;font-weight:500}
+  nav.main a::after{content:"";position:absolute;left:50%;right:50%;bottom:-4px;height:1px;background:var(--sand);transition:left .2s,right .2s}
+  nav.main a:hover{color:#fff}
+  nav.main a:hover::after,nav.main a.active::after{left:0;right:0}
+  nav.main a.active{color:#fff}
+
+  .crumbs{border-bottom:1px solid var(--rule-soft);padding:12px 0;font-family:'Inter',sans-serif;font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
+  .crumbs a:hover{color:var(--green)}.crumbs span{margin:0 10px;color:var(--rule)}
+
+  .art-head{max-width:760px;margin:0 auto;padding:64px 36px 36px;text-align:center}
+  .kicker{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--green);margin-bottom:22px}
+  .art-head h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,5.2vw,60px);line-height:1.08;letter-spacing:-.018em;margin-bottom:22px}
+  .art-head h1 em{font-style:italic;color:var(--green)}
+  .dek{font-style:italic;font-size:21px;line-height:1.45;color:var(--ink-2);max-width:660px;margin:0 auto 32px}
+  .byline{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft);font-family:'Inter',sans-serif;font-size:11.5px;letter-spacing:.08em;color:var(--muted)}
+  .byline .author{color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.12em}
+
+  .hero{max-width:1080px;margin:32px auto 0;padding:0 36px}
+  .hero .img{width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#0f2a26 0%,#1f4338 35%,#3a5a7c 75%,#86b3d6 100%);position:relative;filter:saturate(.92)}
+  .caption{max-width:760px;margin:14px auto 56px;padding:0 36px;font-family:'Inter',sans-serif;font-size:11.5px;color:var(--muted);line-height:1.55}
+  .caption b{color:var(--ink);font-weight:600}
+
+  article.body{max-width:680px;margin:0 auto;padding:0 36px 56px}
+  article.body p{font-size:19px;line-height:1.7;color:var(--ink-2);margin-bottom:22px}
+  article.body p:first-of-type::first-letter{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:78px;float:left;line-height:.82;padding:6px 14px 0 0;color:var(--green);font-style:italic}
+  article.body h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.2;margin:44px 0 14px}
+  article.body h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;line-height:1.25;margin:30px 0 10px}
+  article.body a{color:var(--green);border-bottom:1px solid rgba(47,93,80,.4)}
+  article.body ul,article.body ol{padding-left:24px;margin-bottom:22px}
+  article.body li{font-size:19px;line-height:1.7;color:var(--ink-2);margin-bottom:8px}
+  article.body blockquote{margin:44px 0;padding:8px 0;border-top:2px solid var(--green);border-bottom:1px solid var(--rule-soft);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:28px;line-height:1.32;color:var(--ink)}
+  article.body blockquote p{font-size:28px;line-height:1.32;font-style:italic;color:var(--ink);margin:20px 0}
+  article.body hr{border:none;text-align:center;margin:40px 0;font-family:'Inter',sans-serif;font-size:14px;letter-spacing:1em;color:var(--green)}
+  article.body hr::before{content:"• • •"}
+
+  .author-tag{max-width:680px;margin:32px auto 0;padding:24px 36px 0;border-top:1px solid var(--rule);font-size:15.5px;color:var(--ink-2);line-height:1.6}
+  .author-tag b{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--ink);display:block;margin-bottom:5px}
+
+  footer.site{background:var(--ink);color:#a8b3b0;padding:36px 0 32px;margin-top:56px}
+  footer .row{display:flex;justify-content:space-between;align-items:center;font-family:'Inter',sans-serif;font-size:11.5px}
+  footer .l{display:flex;gap:10px;align-items:baseline}
+  footer .l b{font-family:'Cormorant Garamond',serif;color:#f2efe8;font-weight:600;font-size:15px;font-style:italic}
+  footer .r{display:flex;gap:22px}
+  footer .r a:hover{color:#f2efe8}
+
+  @media (max-width:900px){
+    .wrap{padding:0 24px}.top-bar .row{gap:18px;font-size:10.5px}.brand-name{font-size:30px}
+    nav.main .row{gap:24px;font-size:14px}
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar"><div class="wrap row">
+  <a href="about.html">About</a><span class="sep">◆</span>
+  <a href="index.html#writing">Writing</a><span class="sep">◆</span>
+  <a href="mailto:singhhridhaye@gmail.com">Get in touch</a>
+</div></div>
+
+<div class="logo-band"><div class="wrap row">
+  <div class="mark"><span>H</span></div>
+  <div class="brand-name">Hridhaye Bir Singh<sup>®</sup></div>
+</div></div>
+
+<nav class="main"><div class="wrap row">
+  <a href="index.html">Home</a>
+  <a href="index.html#writing">Writing</a>
+  <a href="about.html">About</a>
+  <a href="mailto:singhhridhaye@gmail.com">Contact</a>
+</div></nav>
+
+<div class="crumbs"><div class="wrap">
+  <a href="index.html">Writing</a><span>/</span>${escapeHtml(cat)}
+</div></div>
+
+<header class="art-head">
+  <div class="kicker">${escapeHtml(cat)}</div>
+  <h1>${titleHtml}</h1>
+  <p class="dek">${escapeHtml(dek)}</p>
+  <div class="byline">
+    <span class="author">By Hridhaye Bir Singh</span>
+    <span>${escapeHtml(date)}</span>
+    <span>${escapeHtml(rt)}</span>
+  </div>
+</header>
+
+<div class="hero"><div class="img" ${heroStyle}></div></div>
+${caption ? `<p class="caption">${escapeHtml(caption)}</p>` : '<div style="height:32px"></div>'}
+
+<article class="body">
+${bodyHtml}
+<div class="author-tag">
+  <b>Hridhaye Bir Singh</b>
+  is a writer and communications professional based in Toronto, reporting on policy, culture, and healthcare.
+</div>
+</article>
+
+<footer class="site"><div class="wrap row">
+  <div class="l">© <span id="yr"></span> <b>Hridhaye Bir Singh</b></div>
+  <div class="r">
+    <a href="about.html">About</a>
+    <a href="index.html#writing">Writing</a>
+    <a href="mailto:singhhridhaye@gmail.com">Email</a>
+  </div>
+</div></footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();<\/script>
+</body>
+</html>`;
+  }
+
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Canada's Clean Grid Has a Rainy-Day Problem — Hridhaye Bir Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAFAF7;--paper-2:#F2EFE8;--ink:#1B2A28;--ink-2:#2f3d3b;
+    --muted:#6b7572;--rule:#d8d4c8;--rule-soft:#e8e4d8;
+    --green:#2F5D50;--green-dark:#1f4338;--blue:#3A5A7C;--sand:#C9B68B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}a:hover{color:var(--green)}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 36px}
+
+  .logo-band{background:#fff;padding:30px 0 24px;border-bottom:1px solid var(--rule-soft)}
+  .logo-band .row{display:flex;justify-content:center;align-items:center;gap:18px}
+  .mark{width:44px;height:44px;border:1.5px solid var(--green-dark);border-radius:50%;display:grid;place-items:center;position:relative}
+  .mark::before{content:"";position:absolute;inset:5px;border:1px solid var(--green-dark);border-radius:50%}
+  .mark span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--green-dark);font-style:italic;line-height:1}
+  .brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:36px;color:var(--green-dark);line-height:1}
+  nav.main{background:var(--ink);padding:14px 0}
+  nav.main .row{display:flex;justify-content:center;align-items:center;gap:56px;font-family:'Source Serif 4',serif;font-size:15.5px;color:#e8e4d8}
+  nav.main a{color:#e8e4d8;padding:4px 2px;position:relative;font-weight:500}
+  nav.main a::after{content:"";position:absolute;left:50%;right:50%;bottom:-4px;height:1px;background:var(--sand);transition:left .2s,right .2s}
+  nav.main a:hover{color:#fff}
+  nav.main a:hover::after,nav.main a.active::after{left:0;right:0}
+  nav.main a.active{color:#fff}
+
+  .crumbs{border-bottom:1px solid var(--rule-soft);padding:12px 0;font-family:'Inter',sans-serif;font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
+  .crumbs a:hover{color:var(--green)}.crumbs span{margin:0 10px;color:var(--rule)}
+
+  .art-head{max-width:760px;margin:0 auto;padding:64px 36px 36px;text-align:center}
+  .kicker{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--green);margin-bottom:22px}
+  .art-head h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,5.2vw,60px);line-height:1.08;letter-spacing:-.018em;margin-bottom:22px}
+  .art-head h1 em{font-style:italic;color:var(--green)}
+  .dek{font-style:italic;font-size:21px;line-height:1.45;color:var(--ink-2);max-width:660px;margin:0 auto 32px}
+  .byline{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft);font-family:'Inter',sans-serif;font-size:11.5px;letter-spacing:.08em;color:var(--muted)}
+  .byline .author{color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.12em}
+
+  .hero{max-width:1080px;margin:32px auto 0;padding:0 36px}
+  .hero .img{width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#0f2a26 0%,#1f4338 35%,#3a5a7c 75%,#86b3d6 100%);position:relative;filter:saturate(.92)}
+  .hero .img::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 28% 38%,rgba(255,220,150,.18),transparent 55%),radial-gradient(circle at 75% 70%,rgba(80,170,150,.22),transparent 50%)}
+  .caption{max-width:760px;margin:14px auto 56px;padding:0 36px;font-family:'Inter',sans-serif;font-size:11.5px;color:var(--muted);line-height:1.55}
+  .caption b{color:var(--ink);font-weight:600}
+
+  article.body{max-width:680px;margin:0 auto;padding:0 36px 56px}
+  article.body p{font-size:19px;line-height:1.7;color:var(--ink-2);margin-bottom:22px}
+  article.body > p:first-of-type::first-letter{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:54px;float:left;line-height:.9;padding:8px 10px 0 0;color:var(--green);font-style:italic}
+  article.body h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.2;letter-spacing:-.005em;margin:44px 0 14px}
+  article.body a{color:var(--green);border-bottom:1px solid rgba(47,93,80,.4)}
+
+  .pull{margin:48px 0;padding:10px 0 4px;border-top:2px solid var(--green);border-bottom:1px solid var(--rule-soft)}
+  .pull p{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:34px;line-height:1.3;margin:22px 0 16px;color:var(--ink);letter-spacing:-.005em}
+  .pull p::first-letter{font-family:inherit;font-weight:inherit;font-size:inherit;float:none;padding:0;color:inherit;font-style:inherit;line-height:inherit}
+  .pull .attr{display:block;margin-bottom:14px;font-family:'Inter',sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+  figure.inline{margin:40px 0}
+  figure.inline .img{width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#0f2a26 0%,#1f4338 35%,#3a5a7c 75%,#86b3d6 100%);filter:saturate(.85)}
+  figure.inline figcaption{font-family:'Inter',sans-serif;font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.55}
+  figure.inline figcaption b{color:var(--ink);font-weight:600}
+
+  .dinkus{text-align:center;margin:40px 0;font-family:'Inter',sans-serif;font-size:14px;letter-spacing:1em;color:var(--green)}
+
+  .author-tag{max-width:680px;margin:32px auto 0;padding:24px 36px 0;border-top:1px solid var(--rule);font-size:15.5px;color:var(--ink-2);line-height:1.6}
+  .author-tag b{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--ink);display:block;margin-bottom:5px}
+
+  section.related{border-top:1px solid var(--rule);padding:56px 0;margin-top:56px;background:var(--paper-2)}
+  .sec-head{display:flex;justify-content:space-between;align-items:baseline;padding:0 0 18px;border-bottom:1px solid var(--ink);margin-bottom:28px}
+  .sec-head h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:28px}
+  .sec-head h2 em{font-style:italic;color:var(--green)}
+  .sec-head .count{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+  .rel{padding-top:6px}
+  .rel .cat{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+  .rel h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;line-height:1.22;letter-spacing:-.005em;margin-bottom:8px}
+  .rel:hover h3{color:var(--green-dark)}
+  .rel p{font-style:italic;font-size:15.5px;color:var(--ink-2);line-height:1.5}
+
+  footer.site{background:var(--ink);color:#a8b3b0;padding:36px 0 32px}
+  footer .row{display:flex;justify-content:space-between;align-items:center;font-family:'Inter',sans-serif;font-size:11.5px}
+  footer .l{display:flex;gap:10px;align-items:baseline}
+  footer .l b{font-family:'Cormorant Garamond',serif;color:#f2efe8;font-weight:600;font-size:15px;font-style:italic}
+  footer .r{display:flex;gap:22px}
+  footer .r a:hover{color:#f2efe8}
+
+  @media (max-width:900px){
+    .wrap{padding:0 24px}.brand-name{font-size:30px}
+    nav.main .row{gap:32px;font-size:14px}
+    .rel-grid{grid-template-columns:1fr;gap:32px}
+    article.body p{font-size:17.5px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="main"><div class="wrap row">
+  <a href="index.html">Home</a>
+  <a href="writing.html" class="active">Writing</a>
+</div></nav>
+
+<div class="logo-band"><div class="wrap row">
+  <div class="mark"><span>H</span></div>
+  <div class="brand-name">Hridhaye Bir Singh</div>
+</div></div>
+
+<div class="crumbs"><div class="wrap"><a href="index.html">Home</a><span>/</span><a href="writing.html">Writing</a><span>/</span>Politics &amp; Policy</div></div>
+
+<header class="art-head">
+  <div class="kicker">Politics &amp; Policy · Feature</div>
+  <h1>Canada's Clean Grid Has a <em>Rainy-Day</em> Problem</h1>
+  <p class="dek">A power system built around hydropower looks clean on paper. In a dry year, it leans on the same fossil fuels it was meant to replace — and the bill comes due in carbon, not just dollars.</p>
+  <div class="byline">
+    <span class="author">By Hridhaye Bir Singh</span>
+    <span>October 14, 2025</span>
+    <span>8 min read</span>
+  </div>
+</header>
+
+<div class="hero"><div class="img"></div></div>
+<div class="caption"><b>Above:</b> A hydroelectric facility on the BC interior, late summer. <i>Illustrative composite — replace with credited image.</i></div>
+
+<article class="body">
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Canada has, for most of its modern history, told itself a simple story about electricity: the lights run on water. It is a story with real evidence behind it. Roughly three out of every five kilowatt-hours produced in this country come from hydropower, a share unrivalled in the G7. The country's climate plans, its export pitch, and a good deal of its self-image rest on that single statistic.</p>
+
+<p>What the statistic does not capture is the weather. In a wet year, the math is generous and the grid behaves the way the brochures promise. In a dry one, the reservoirs draw down faster than they refill, and the system has to find its missing electrons somewhere. Often, that somewhere is on the other side of a fossil-fuel turbine.</p>
+
+<h2>The drought that exposed the seam</h2>
+
+<p>British Columbia spent much of 2023 and the first half of 2024 importing power. That was unusual, but it was not mysterious. The province had endured back-to-back dry years, BC Hydro's reservoirs were sitting well below their long-term averages, and the cheapest available megawatts were sitting in Washington, Alberta, and points further south — many of them produced by natural gas. The grid, in other words, did exactly what it was designed to do. It kept the lights on. It just did so at a higher carbon cost than the public storyline allowed for.</p>
+
+<div class="pull">
+  <span class="attr">The point</span>
+  <p>"A grid built around water is a grid that, in a dry year, quietly burns gas on someone else's balance sheet."</p>
+</div>
+
+<p>This is the part of the conversation that tends to get lost. Hydropower is not a fossil fuel, and the question is not whether to keep building it. The question is what a system optimized around a weather-dependent baseload does when the weather stops cooperating, and how honestly we account for the answer.</p>
+
+<h2>What the numbers actually show</h2>
+
+<p>Look at the import data for the past two drought years and a pattern emerges. The emissions intensity of BC's consumed electricity — the carbon attached to the power British Columbians actually used, not the power their dams produced — moved noticeably upward in dry quarters. That is a number nobody puts on a billboard.</p>
+
+<figure class="inline">
+  <div class="img"></div>
+  <figcaption><b>Figure 1.</b> Illustrative composite showing the relationship between reservoir levels and net interprovincial imports. <i>Demo placeholder.</i></figcaption>
+</figure>
+
+<p>None of this is an argument against hydropower. It is an argument for honesty about what a hydropower-heavy grid is and is not. It is firm capacity in a normal year. It is a variable resource in a hot, dry one. Pretending otherwise is how a country ends up importing emissions it has already claimed credit for avoiding.</p>
+
+<h2>What a serious answer looks like</h2>
+
+<p>A serious answer probably involves more interties, more firm low-carbon capacity, and a more candid public conversation about what "clean" means in a year when the rain doesn't come. None of that is glamorous. All of it is cheaper than the alternative, which is paying for the same kilowatt-hour twice — once in dollars, once in carbon — and pretending we didn't.</p>
+
+<div class="dinkus">• • •</div>
+
+<div class="author-tag">
+  <b>Hridhaye Bir Singh</b>
+  is a writer and communications professional based in Toronto. He covers policy, culture, and the institutions that shape both.
+</div>
+
+</article>
+
+<section class="related"><div class="wrap">
+  <div class="sec-head">
+    <h2>More from <em>this writer</em></h2>
+    <div class="count">Two pieces</div>
+  </div>
+  <div class="rel-grid">
+    <a class="rel" href="barbenheimer.html">
+      <div class="cat">Media &amp; Culture</div>
+      <h3>What Made Barbenheimer a Phenomenon — and a Lesson</h3>
+      <p>The 2023 double release as a case study in audience behaviour and theatrical marketing.</p>
+    </a>
+    <a class="rel" href="istanbul.html">
+      <div class="cat">Healthcare</div>
+      <h3>Why International Patients Choose Istanbul for Treatment</h3>
+      <p>A destination guide to Turkey's medical tourism economy.</p>
+    </a>
+  </div>
+</div></section>
+
+<footer class="site"><div class="wrap row">
+  <div class="l"><b>Hridhaye Bir Singh</b><span>© 2026 — All rights reserved.</span></div>
+  <div class="r"><a href="mailto:singhhridhaye@gmail.com">Email</a><a href="writing.html">Writing</a></div>
+</div></footer>
+
+</body>
+</html>
