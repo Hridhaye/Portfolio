@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Article Publisher — Hridhaye Bir Singh</title>
+<title>Article Manager — Hridhaye Bir Singh</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -18,207 +18,124 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 
-  header.bar{
-    background:var(--top-bar);color:#e8e4d8;padding:14px 32px;
-    display:flex;justify-content:space-between;align-items:center;
-  }
-  header.bar .brand{
-    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;letter-spacing:.01em;
-  }
+  header.bar{background:var(--top-bar);color:#e8e4d8;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  header.bar .brand{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;letter-spacing:.01em}
   header.bar .brand em{font-style:italic;color:var(--sand);font-weight:500}
-  header.bar .meta{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#b8c4c1}
+  header.bar .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  header.bar .status{font-size:11px;letter-spacing:.06em;color:#b8c4c1}
+  header.bar .status b{color:#fff}
 
-  .shell{display:grid;grid-template-columns:480px 1fr;min-height:calc(100vh - 54px)}
+  .btn{font-family:'Inter',sans-serif;font-weight:600;letter-spacing:.06em;cursor:pointer;border-radius:2px;transition:all .15s;border:1px solid transparent}
+  .btn-download{background:var(--sand);color:var(--top-bar);padding:9px 16px;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+  .btn-download:hover{background:#dcc99e}
+  .btn-ghost{background:transparent;color:#e8e4d8;border-color:rgba(255,255,255,.25);padding:8px 14px;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+  .btn-ghost:hover{border-color:var(--sand);color:#fff}
 
-  /* FORM PANEL */
-  .form-panel{
-    background:#fff;border-right:1px solid var(--rule);
-    overflow-y:auto;max-height:calc(100vh - 54px);
-  }
-  .form-inner{padding:32px}
-  .form-panel h1{
-    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;
-    color:var(--ink);margin-bottom:6px;letter-spacing:-.005em;
-  }
-  .form-panel .sub{color:var(--muted);font-size:13px;margin-bottom:28px;line-height:1.55}
+  .shell{display:grid;grid-template-columns:270px 440px 1fr;min-height:calc(100vh - 51px)}
 
-  .field{margin-bottom:20px}
-  .field label{
-    display:block;font-size:10.5px;font-weight:700;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--green);margin-bottom:8px;
-  }
-  .field input[type=text],.field select,.field textarea{
-    width:100%;border:1px solid var(--rule);background:var(--paper);
-    padding:10px 12px;font-family:'Source Serif 4',serif;font-size:15px;
-    color:var(--ink);border-radius:2px;transition:border .15s,background .15s;
-  }
-  .field input[type=text]:focus,.field select:focus,.field textarea:focus{
-    outline:none;border-color:var(--green);background:#fff;
-  }
-  .field textarea{font-family:'Source Serif 4',serif;line-height:1.6;resize:vertical;min-height:280px}
-  .field .hint{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5}
-  .field .hint code{
-    background:var(--paper-2);padding:1px 5px;border-radius:2px;
-    font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--green-dark);
-  }
+  /* SIDEBAR — article list */
+  .sidebar{background:var(--paper-2);border-right:1px solid var(--rule);overflow-y:auto;max-height:calc(100vh - 51px)}
+  .sidebar .head{padding:18px 18px 12px;display:flex;justify-content:space-between;align-items:center}
+  .sidebar .head h2{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
+  .sidebar .new-btn{background:var(--green);color:#fff;border:none;padding:7px 12px;font-size:11px;font-weight:600;letter-spacing:.05em;cursor:pointer;border-radius:2px}
+  .sidebar .new-btn:hover{background:var(--green-dark)}
+  .art-item{padding:14px 18px;border-top:1px solid var(--rule-soft);cursor:pointer;position:relative;transition:background .12s}
+  .art-item:hover{background:#fff}
+  .art-item.active{background:#fff;border-left:3px solid var(--green);padding-left:15px}
+  .art-item .t{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--ink);line-height:1.2;margin-bottom:4px}
+  .art-item .m{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .art-item .del{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;line-height:1;opacity:0;transition:opacity .12s,color .12s}
+  .art-item:hover .del{opacity:1}
+  .art-item .del:hover{color:var(--danger)}
+  .art-item .move{position:absolute;bottom:10px;right:12px;display:flex;gap:2px;opacity:0;transition:opacity .12s}
+  .art-item:hover .move{opacity:1}
+  .art-item .move button{background:var(--paper-2);border:1px solid var(--rule);color:var(--ink-2);cursor:pointer;font-size:11px;line-height:1;width:22px;height:20px;border-radius:2px;padding:0}
+  .art-item .move button:hover:not(:disabled){background:var(--green);color:#fff;border-color:var(--green)}
+  .art-item .move button:disabled{opacity:.3;cursor:default}
+  .sidebar .empty{padding:24px 18px;font-size:12.5px;color:var(--muted);font-style:italic;line-height:1.6}
+  .sidebar .order-hint{padding:6px 18px 10px;font-size:10.5px;color:var(--muted);line-height:1.5;font-style:italic}
 
-  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  /* FORM */
+  .form-panel{background:#fff;border-right:1px solid var(--rule);overflow-y:auto;max-height:calc(100vh - 51px)}
+  .form-inner{padding:26px 28px}
+  .form-inner .editing-tag{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sand);margin-bottom:6px}
+  .form-panel h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;color:var(--ink);margin-bottom:4px;letter-spacing:-.005em}
+  .form-panel .sub{color:var(--muted);font-size:12.5px;margin-bottom:22px;line-height:1.5}
 
-  .tools{
-    display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;
-  }
-  .tools button{
-    background:var(--paper-2);border:1px solid var(--rule);color:var(--ink-2);
-    padding:5px 10px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;
-    letter-spacing:.04em;cursor:pointer;border-radius:2px;transition:all .15s;
-  }
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:7px}
+  .field input[type=text],.field select,.field textarea{width:100%;border:1px solid var(--rule);background:var(--paper);padding:9px 11px;font-family:'Source Serif 4',serif;font-size:14.5px;color:var(--ink);border-radius:2px;transition:border .15s,background .15s}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--green);background:#fff}
+  .field textarea{font-family:'Source Serif 4',serif;line-height:1.6;resize:vertical;min-height:260px}
+  .field .hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .field .hint code{background:var(--paper-2);padding:1px 5px;border-radius:2px;font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--green-dark)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+  .tools{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+  .tools button{background:var(--paper-2);border:1px solid var(--rule);color:var(--ink-2);padding:5px 9px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border-radius:2px;transition:all .15s}
   .tools button:hover{background:var(--green);color:#fff;border-color:var(--green)}
 
-  .actions{
-    position:sticky;bottom:0;background:#fff;padding:18px 0 4px;
-    border-top:1px solid var(--rule-soft);margin-top:8px;
-    display:flex;gap:10px;flex-direction:column;
-  }
-  button.primary{
-    background:var(--green);color:#fff;border:none;padding:14px 20px;
-    font-family:'Inter',sans-serif;font-size:12px;font-weight:700;
-    letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:2px;
-    transition:background .15s;
-  }
+  .actions{position:sticky;bottom:0;background:#fff;padding:16px 0 4px;border-top:1px solid var(--rule-soft);margin-top:8px;display:flex;gap:10px;flex-direction:column}
+  button.primary{background:var(--green);color:#fff;border:none;padding:13px 20px;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:background .15s}
   button.primary:hover{background:var(--green-dark)}
-  button.secondary{
-    background:#fff;color:var(--ink);border:1px solid var(--rule);padding:11px 20px;
-    font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;
-    letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;
-    transition:all .15s;
-  }
+  .actions .secondary-row{display:flex;gap:10px}
+  button.secondary{flex:1;background:#fff;color:var(--ink);border:1px solid var(--rule);padding:10px 16px;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .15s}
   button.secondary:hover{border-color:var(--green);color:var(--green)}
+  button.secondary.danger:hover{border-color:var(--danger);color:var(--danger)}
 
-  .toast{
-    position:fixed;bottom:24px;right:24px;background:var(--green-dark);color:#fff;
-    padding:14px 22px;font-size:13px;font-weight:500;border-radius:3px;
-    box-shadow:0 8px 24px rgba(0,0,0,.15);opacity:0;transform:translateY(8px);
-    transition:opacity .25s,transform .25s;pointer-events:none;z-index:50;
-  }
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--green-dark);color:#fff;padding:14px 22px;font-size:13px;font-weight:500;border-radius:3px;box-shadow:0 8px 24px rgba(0,0,0,.15);opacity:0;transform:translateY(8px);transition:opacity .25s,transform .25s;pointer-events:none;z-index:50}
   .toast.show{opacity:1;transform:translateY(0)}
+  .toast.warn{background:var(--danger)}
 
-  /* PREVIEW PANEL */
-  .preview-panel{
-    background:var(--paper);overflow-y:auto;max-height:calc(100vh - 54px);
-  }
-  .preview-head{
-    background:#fff;border-bottom:1px solid var(--rule);padding:14px 32px;
-    display:flex;justify-content:space-between;align-items:center;
-    position:sticky;top:0;z-index:5;
-  }
-  .preview-head .lbl{
-    font-size:10.5px;font-weight:700;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--green);
-  }
+  /* PREVIEW */
+  .preview-panel{background:var(--paper);overflow-y:auto;max-height:calc(100vh - 51px)}
+  .preview-head{background:#fff;border-bottom:1px solid var(--rule);padding:13px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+  .preview-head .lbl{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
   .preview-head .tabs{display:flex;gap:4px}
-  .preview-head .tabs button{
-    background:transparent;border:1px solid var(--rule);
-    padding:6px 14px;font-size:11px;font-weight:600;letter-spacing:.08em;
-    color:var(--muted);cursor:pointer;text-transform:uppercase;
-    font-family:'Inter',sans-serif;border-radius:2px;transition:all .15s;
-  }
+  .preview-head .tabs button{background:transparent;border:1px solid var(--rule);padding:6px 14px;font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--muted);cursor:pointer;text-transform:uppercase;font-family:'Inter',sans-serif;border-radius:2px;transition:all .15s}
   .preview-head .tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .preview-body{padding:28px}
 
-  .preview-body{padding:32px}
-
-  /* Article preview styles (matches site) */
-  .preview-article{
-    background:#fff;max-width:760px;margin:0 auto;padding:48px 40px;
-    border:1px solid var(--rule-soft);box-shadow:0 1px 0 rgba(0,0,0,.03);
-  }
-  .preview-article .kicker{
-    font-family:'Inter',sans-serif;font-size:10.5px;font-weight:700;
-    letter-spacing:.22em;text-transform:uppercase;color:var(--green);
-    margin-bottom:20px;text-align:center;
-  }
-  .preview-article h1.title{
-    font-family:'Cormorant Garamond',serif;font-weight:500;font-size:42px;
-    line-height:1.08;letter-spacing:-.015em;text-align:center;margin-bottom:18px;
-  }
+  .preview-article{background:#fff;max-width:760px;margin:0 auto;padding:44px 40px;border:1px solid var(--rule-soft);box-shadow:0 1px 0 rgba(0,0,0,.03)}
+  .preview-article .kicker{font-family:'Inter',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--green);margin-bottom:20px;text-align:center}
+  .preview-article h1.title{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:40px;line-height:1.08;letter-spacing:-.015em;text-align:center;margin-bottom:16px}
   .preview-article h1.title em{font-style:italic;color:var(--green)}
-  .preview-article .dek{
-    font-family:'Source Serif 4',serif;font-style:italic;font-size:18px;
-    line-height:1.45;color:var(--ink-2);text-align:center;max-width:580px;
-    margin:0 auto 24px;
-  }
-  .preview-article .byline{
-    display:flex;justify-content:center;gap:18px;padding:12px 0;
-    border-top:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft);
-    font-size:10.5px;letter-spacing:.08em;color:var(--muted);
-    font-family:'Inter',sans-serif;margin-bottom:28px;
-  }
+  .preview-article .dek{font-family:'Source Serif 4',serif;font-style:italic;font-size:18px;line-height:1.45;color:var(--ink-2);text-align:center;max-width:580px;margin:0 auto 24px}
+  .preview-article .byline{display:flex;justify-content:center;gap:18px;padding:12px 0;border-top:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft);font-size:10.5px;letter-spacing:.08em;color:var(--muted);font-family:'Inter',sans-serif;margin-bottom:28px}
   .preview-article .byline .author{color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.12em}
-  .preview-article .hero-img{
-    width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#0f2a26 0%,#1f4338 35%,#3a5a7c 75%,#86b3d6 100%);
-    margin-bottom:28px;
-  }
   .preview-article .content{font-family:'Source Serif 4',serif}
+  .preview-article .content .article-figure{margin:28px auto}
+  .preview-article .content .article-figure img{width:100%;height:auto;display:block;border:1px solid var(--rule-soft)}
+  .preview-article .content .article-figure figcaption{font-family:'Inter',sans-serif;font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:8px}
+  .preview-article .content img{max-width:100%;height:auto}
   .preview-article .content p{font-size:17px;line-height:1.7;color:var(--ink-2);margin-bottom:18px}
-  .preview-article .content p:first-of-type::first-letter{
-    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:64px;
-    float:left;line-height:.85;padding:5px 12px 0 0;color:var(--green);font-style:italic;
-  }
-  .preview-article .content h2{
-    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;
-    line-height:1.2;margin:36px 0 12px;
-  }
-  .preview-article .content h3{
-    font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;
-    margin:24px 0 8px;
-  }
-  .preview-article .content blockquote{
-    margin:32px 0;padding:16px 0;border-top:2px solid var(--green);
-    border-bottom:1px solid var(--rule-soft);
-    font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;
-    font-size:24px;line-height:1.32;color:var(--ink);
-  }
+  .preview-article .content > p:first-of-type::first-letter{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:64px;float:left;line-height:.85;padding:5px 12px 0 0;color:var(--green);font-style:italic}
+  .preview-article .content blockquote p::first-letter{font-size:inherit;float:none;padding:0;color:inherit}
+  .preview-article .content h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:26px;line-height:1.2;margin:36px 0 12px}
+  .preview-article .content h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;margin:24px 0 8px}
+  .preview-article .content blockquote{margin:32px 0;padding:16px 0;border-top:2px solid var(--green);border-bottom:1px solid var(--rule-soft);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:24px;line-height:1.32;color:var(--ink)}
+  .preview-article .content blockquote p{font-size:24px;font-style:italic;color:var(--ink)}
   .preview-article .content a{color:var(--green);border-bottom:1px solid rgba(47,93,80,.4)}
   .preview-article .content ul,.preview-article .content ol{padding-left:22px;margin-bottom:18px}
   .preview-article .content li{font-size:17px;line-height:1.7;color:var(--ink-2);margin-bottom:6px}
-  .preview-article .content code{background:var(--paper-2);padding:1px 5px;font-size:14px;border-radius:2px;font-family:ui-monospace,monospace}
+  .preview-article .content hr{border:none;text-align:center;margin:32px 0;color:var(--green);letter-spacing:1em;font-family:'Inter',sans-serif}
+  .preview-article .content hr::before{content:"• • •"}
 
-  /* HOMEPAGE SNIPPET preview */
-  .snippet-view{
-    background:#fff;max-width:760px;margin:0 auto;padding:32px;
-    border:1px solid var(--rule-soft);
-  }
-  .snippet-view h3{
-    font-family:'Inter',sans-serif;font-size:11px;font-weight:700;
-    letter-spacing:.18em;text-transform:uppercase;color:var(--green);
-    margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--rule);
-  }
-  .snippet-view pre{
-    background:var(--paper);border:1px solid var(--rule-soft);padding:18px;
-    font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.6;
-    color:var(--ink-2);overflow-x:auto;border-radius:2px;
-    white-space:pre-wrap;word-break:break-word;
-  }
-  .snippet-view .note{
-    margin-top:14px;font-size:13px;color:var(--muted);line-height:1.55;
-  }
-  .snippet-view .copy-btn{
-    margin-top:14px;
-  }
+  .listing-view{background:#fff;max-width:760px;margin:0 auto;padding:28px 32px;border:1px solid var(--rule-soft)}
+  .listing-view h3{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin-bottom:8px;padding-bottom:12px;border-bottom:1px solid var(--rule)}
+  .listing-view .note{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+  .lrow{display:grid;grid-template-columns:60px 1fr 120px;gap:16px;padding:20px 0;border-bottom:1px solid var(--rule-soft);align-items:start}
+  .lrow .yr{font-size:12px;font-weight:600;color:var(--muted)}
+  .lrow .lt{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;line-height:1.2;margin-bottom:5px}
+  .lrow .ld{font-family:'Source Serif 4',serif;font-style:italic;font-size:14px;color:var(--ink-2);line-height:1.45}
+  .lrow .lc{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);text-align:right}
 
-  .upload-zone{
-    border:1.5px dashed var(--rule);background:var(--paper);
-    padding:14px;text-align:center;border-radius:2px;cursor:pointer;
-    transition:all .15s;
-  }
-  .upload-zone:hover{border-color:var(--green);background:#fff}
-  .upload-zone .icon{font-size:18px;color:var(--green);margin-bottom:4px}
-  .upload-zone .lbl{font-size:11.5px;color:var(--muted);font-weight:500}
-  .upload-zone input{display:none}
+  .tools .img-btn{background:var(--green);color:#fff;border-color:var(--green)}
+  .tools .img-btn:hover{background:var(--green-dark);border-color:var(--green-dark)}
 
-  /* responsive */
-  @media (max-width:1000px){
+  @media (max-width:1100px){
     .shell{grid-template-columns:1fr}
-    .form-panel{border-right:none;border-bottom:1px solid var(--rule);max-height:none}
+    .sidebar,.form-panel{border-right:none;border-bottom:1px solid var(--rule);max-height:none}
     .preview-panel{max-height:none}
   }
 </style>
@@ -226,33 +143,48 @@
 <body>
 
 <header class="bar">
-  <div class="brand">Article <em>Publisher</em></div>
-  <div class="meta">Hridhaye Bir Singh · Editorial Tool</div>
+  <div class="brand">Article <em>Manager</em></div>
+  <div class="toolbar">
+    <span class="status" id="status">No articles loaded</span>
+    <button class="btn btn-ghost" onclick="loadFilePicker()">⤒ Load articles.json</button>
+    <button class="btn btn-download" onclick="downloadJson()">⬇ Download articles.json</button>
+    <input type="file" id="jsonPicker" accept=".json,application/json" style="display:none"/>
+  </div>
 </header>
 
 <div class="shell">
 
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="head">
+      <h2>Articles</h2>
+      <button class="new-btn" onclick="newArticle()">+ New</button>
+    </div>
+    <div id="art-list"></div>
+  </aside>
+
   <!-- FORM -->
   <div class="form-panel">
     <div class="form-inner">
-      <h1>Publish a new article</h1>
-      <p class="sub">Fill in the fields, write your piece in Markdown, then download the HTML file or copy the homepage listing snippet.</p>
+      <div class="editing-tag" id="editing-tag">New article</div>
+      <h1 id="form-title">Compose</h1>
+      <p class="sub">Edit the fields, then click <b>Save to list</b>. When you're done with all changes, hit <b>Download articles.json</b> and drop the file into your repo.</p>
 
       <div class="field">
         <label>Filename (slug)</label>
         <input type="text" id="slug" placeholder="e.g. clean-grid" />
-        <div class="hint">No spaces or extension. Will be saved as <code>slug.html</code>.</div>
+        <div class="hint">Lowercase, no spaces. The article lives at <code>article.html?slug=…</code>.</div>
       </div>
 
       <div class="field">
         <label>Title</label>
         <input type="text" id="title" placeholder="e.g. Canada's Clean Grid Has a Rainy-Day Problem" />
-        <div class="hint">Wrap words in <code>*asterisks*</code> to italicize them in green accent.</div>
+        <div class="hint">Wrap words in <code>*asterisks*</code> to italicize them in the green accent.</div>
       </div>
 
       <div class="field">
         <label>Dek / Subtitle</label>
-        <input type="text" id="dek" placeholder="A short italic subtitle that sits under the headline" />
+        <input type="text" id="dek" placeholder="A short italic subtitle under the headline" />
       </div>
 
       <div class="row">
@@ -285,44 +217,40 @@
       </div>
 
       <div class="field">
-        <label>Hero image (optional)</label>
-        <label class="upload-zone" for="heroFile">
-          <div class="icon">⬆</div>
-          <div class="lbl" id="heroLbl">Click to upload — or leave empty for the gradient placeholder</div>
-          <input type="file" id="heroFile" accept="image/*"/>
-        </label>
-        <div class="hint">Image will be embedded directly into the HTML file (base64). Keep under ~500KB for best results.</div>
-      </div>
-
-      <div class="field">
-        <label>Hero caption (optional)</label>
-        <input type="text" id="caption" placeholder="What the image shows — credit / context" />
-      </div>
-
-      <div class="field">
         <label>Body — Markdown</label>
         <div class="tools">
           <button type="button" onclick="insertMd('## ','')">H2</button>
           <button type="button" onclick="insertMd('### ','')">H3</button>
           <button type="button" onclick="insertMd('**','**')">Bold</button>
           <button type="button" onclick="insertMd('*','*')">Italic</button>
+          <button type="button" onclick="insertMd('<sub>','</sub>')" title="Subscript">x<sub>2</sub></button>
+          <button type="button" onclick="insertMd('<sup>','</sup>')" title="Superscript">x<sup>2</sup></button>
           <button type="button" onclick="insertMd('[','](https://)')">Link</button>
           <button type="button" onclick="insertMd('\n> ','')">Pull quote</button>
-          <button type="button" onclick="insertMd('\n- ','')">List</button>
+          <button type="button" onclick="makeList('bullet')">• List</button>
+          <button type="button" onclick="makeList('number')">1. List</button>
           <button type="button" onclick="insertMd('\n\n***\n\n','')">Section break</button>
+          <button type="button" class="img-btn" onclick="$('imgFile').click()">🖼 Insert image</button>
+          <button type="button" onclick="editImageCaption()">✎ Edit caption</button>
+          <button type="button" onclick="resizeImage()">⇔ Resize image</button>
+          <input type="file" id="imgFile" accept="image/*" style="display:none"/>
         </div>
         <textarea id="body" placeholder="Write your article in Markdown.
 
-A blockquote (starting with >) becomes a pull quote with the green accent rule.
+Click 🖼 Insert image — or just paste a copied image or screenshot — to drop a photo wherever your cursor is.
+
+A line starting with > becomes a pull quote with the green accent rule.
 
 Use *** on its own line for a section break (• • •)."></textarea>
-        <div class="hint">Supports headings, lists, links, bold/italic, blockquotes, and section breaks.</div>
+        <div class="hint">Insert images with the 🖼 button, or <b>paste a copied image or screenshot</b> right into the text. Images are auto-resized &amp; compressed. Each shows as a short tag like <code>![caption](@img1)</code>. Put your cursor on an image and click <b>✎ Edit caption</b> to change its caption anytime; move or delete an image by moving/deleting its whole <code>![…](@img1)</code> tag. The full image is embedded when you save.</div>
       </div>
 
       <div class="actions">
-        <button class="primary" onclick="downloadArticle()">⬇ Download article HTML</button>
-        <button class="secondary" onclick="copySnippet()">📋 Copy homepage listing snippet</button>
-        <button class="secondary" onclick="saveDraft()">💾 Save draft locally</button>
+        <button class="primary" onclick="saveArticle()">✓ Save to list</button>
+        <div class="secondary-row">
+          <button class="secondary" onclick="newArticle()">Clear / new</button>
+          <button class="secondary danger" id="deleteBtn" onclick="deleteCurrent()" style="display:none">Delete this</button>
+        </div>
       </div>
     </div>
   </div>
@@ -333,7 +261,7 @@ Use *** on its own line for a section break (• • •)."></textarea>
       <div class="lbl">Live Preview</div>
       <div class="tabs">
         <button class="active" data-tab="article" onclick="setTab('article')">Article</button>
-        <button data-tab="snippet" onclick="setTab('snippet')">Homepage snippet</button>
+        <button data-tab="listing" onclick="setTab('listing')">In the listing</button>
       </div>
     </div>
     <div class="preview-body">
@@ -344,20 +272,22 @@ Use *** on its own line for a section break (• • •)."></textarea>
         <div class="byline">
           <span class="author">Hridhaye Bir Singh</span>
           <span id="p-cat">Politics &amp; Policy</span>
-          <span id="p-date">—</span>
-          <span id="p-rt">—</span>
+          <span id="p-date"></span>
+          <span id="p-rt"></span>
         </div>
-        <div class="hero-img" id="p-hero"></div>
         <div class="content" id="p-body">
-          <p>Start writing in the Markdown box to the left — your article will render here as you type.</p>
+          <p>Start writing in the Markdown box to the left — your article renders here as you type.</p>
         </div>
       </div>
 
-      <div id="tab-snippet" class="snippet-view" style="display:none">
-        <h3>Paste this block into <code>index.html</code></h3>
-        <pre id="snippet-code">Fill in the title and slug to generate the snippet.</pre>
-        <div class="note">Find the <code>&lt;ul class="writing-list"&gt;</code> in your homepage and add this <code>&lt;li&gt;</code> in the order you want it to appear.</div>
-        <button class="secondary copy-btn" onclick="copySnippet()">📋 Copy to clipboard</button>
+      <div id="tab-listing" class="listing-view" style="display:none">
+        <h3>How this piece appears on the homepage &amp; archive</h3>
+        <p class="note">This is exactly how the row is generated automatically — no snippet to copy. Save it to the list and it shows up on both pages.</p>
+        <div class="lrow">
+          <div class="yr" id="l-yr">2025</div>
+          <div><div class="lt" id="l-title">Your headline</div><div class="ld" id="l-dek">Italic subtitle here.</div></div>
+          <div class="lc" id="l-cat">Category</div>
+        </div>
       </div>
     </div>
   </div>
@@ -367,295 +297,582 @@ Use *** on its own line for a section break (• • •)."></textarea>
 
 <script>
   const $ = id => document.getElementById(id);
-  const fields = ['slug','title','dek','category','year','date','readtime','caption','body'];
-  let heroDataUrl = '';
+  const fields = ['slug','title','dek','category','year','date','readtime','body'];
+  let articles = [];        // working copy of the whole list
+  let editingSlug = null;   // slug currently loaded in the form (null = new)
 
-  // ---- Live preview ----
-  function processTitle(t){
-    return (t||'').replace(/\*(.+?)\*/g,'<em>$1</em>');
-  }
-  function render(){
-    const t = $('title').value || 'Your headline appears here';
-    const d = $('dek').value || 'Your italic subtitle sits below.';
-    const c = $('category').value;
-    const date = $('date').value || '—';
-    const rt = $('readtime').value || '—';
-    $('p-title').innerHTML = processTitle(t);
-    $('p-dek').textContent = d;
-    $('p-kicker').textContent = c;
-    $('p-cat').textContent = c;
-    $('p-date').textContent = date;
-    $('p-rt').textContent = rt;
+  const STORE = 'hbs_articles_working';
 
-    const md = $('body').value || 'Start writing in the Markdown box to the left — your article will render here as you type.';
-    $('p-body').innerHTML = marked.parse(md);
+  // ---------- helpers ----------
+  function esc(s){return (s||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+  function accentTitle(t){return esc(t).replace(/\*(.+?)\*/g,'<em>$1</em>');}
 
-    if(heroDataUrl){
-      $('p-hero').style.background = `url(${heroDataUrl}) center/cover`;
+  // ---------- subscript / superscript on paste ----------
+  // Unicode superscript/subscript characters -> the plain char they represent.
+  const SUP_MAP = {'⁰':'0','¹':'1','²':'2','³':'3','⁴':'4','⁵':'5','⁶':'6','⁷':'7','⁸':'8','⁹':'9','⁺':'+','⁻':'-','⁼':'=','⁽':'(','⁾':')','ⁿ':'n','ⁱ':'i'};
+  const SUB_MAP = {'₀':'0','₁':'1','₂':'2','₃':'3','₄':'4','₅':'5','₆':'6','₇':'7','₈':'8','₉':'9','₊':'+','₋':'-','₌':'=','₍':'(','₎':')'};
+  function hasUnicodeSubSup(s){ for(const ch of s){ if(SUP_MAP[ch]||SUB_MAP[ch]) return true; } return false; }
+  // Turn runs of unicode sub/sup chars in plain text into <sub>/<sup> tags.
+  function unicodeSubSupToTags(s){
+    let out='', run='', kind=null;
+    const flush=()=>{ if(run){ out += '<'+kind+'>'+run+'</'+kind+'>'; run=''; } kind=null; };
+    for(const ch of s){
+      const su=SUP_MAP[ch], sb=SUB_MAP[ch];
+      if(su!==undefined){ if(kind!=='sup') flush(); kind='sup'; run+=su; }
+      else if(sb!==undefined){ if(kind!=='sub') flush(); kind='sub'; run+=sb; }
+      else { flush(); out+=ch; }
     }
-
-    renderSnippet();
+    flush();
+    return out;
+  }
+  // Convert pasted HTML into Markdown-ish text: keeps <sub>/<sup>, bullet & numbered
+  // lists, and bold/italic. Everything else collapses to its plain text.
+  function htmlToMarkdown(html){
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    let out = '';
+    (function walk(node, listStack){
+      node.childNodes.forEach(n => {
+        if(n.nodeType === 3){ out += n.nodeValue.replace(/\s*\n\s*/g,' '); }   // text (collapse stray newlines)
+        else if(n.nodeType === 1){
+          const tag = n.tagName.toLowerCase();
+          if(tag==='sub' || tag==='sup'){
+            const inner = (n.textContent||'').replace(/[<>]/g,'');
+            if(inner) out += '<'+tag+'>'+inner+'</'+tag+'>';
+          } else if(tag==='br'){ out += '\n'; }
+          else if(tag==='b' || tag==='strong'){ out+='**'; walk(n, listStack); out+='**'; }
+          else if(tag==='i' || tag==='em'){ out+='*'; walk(n, listStack); out+='*'; }
+          else if(tag==='ul' || tag==='ol'){
+            if(out && !/\n$/.test(out)) out += '\n';
+            walk(n, listStack.concat([{ordered: tag==='ol', n:1}]));
+            out += '\n';
+          } else if(tag==='li'){
+            const ctx = listStack[listStack.length-1] || {ordered:false, n:1};
+            const indent = '  '.repeat(Math.max(0, listStack.length-1));
+            const marker = ctx.ordered ? (ctx.n++)+'. ' : '- ';
+            out += indent + marker;
+            walk(n, listStack);
+            if(!/\n$/.test(out)) out += '\n';
+          } else {
+            walk(n, listStack);
+            // paragraph-level blocks get a blank line after them so they render as
+            // separate paragraphs (single newline would just soft-wrap into one).
+            if(/^(p|div|h[1-6]|blockquote)$/.test(tag)){ if(!/\n\n$/.test(out)) out += /\n$/.test(out) ? '\n' : '\n\n'; }
+            else if(tag==='tr' && !/\n$/.test(out)) out += '\n';
+          }
+        }
+      });
+    })(doc.body, []);
+    // catch unicode sub/sup that came through as plain characters, and tidy whitespace
+    return unicodeSubSupToTags(out).replace(/\n{3,}/g,'\n\n').replace(/[ \t]+\n/g,'\n').replace(/[ \t]{2,}/g,' ').trim();
   }
 
-  function renderSnippet(){
-    const slug = $('slug').value || 'your-slug';
-    const t = $('title').value || 'Your headline';
-    const d = $('dek').value || 'Italic subtitle here.';
-    const c = $('category').value;
-    const y = $('year').value || new Date().getFullYear();
-    const snippet =
-`<li>
-  <a class="row" href="${slug}.html">
-    <span class="yr">${y}</span>
-    <div class="mid">
-      <h3>${escapeHtml(t)}</h3>
-      <p>${escapeHtml(d)}</p>
-    </div>
-    <span class="cat">${escapeHtml(c)}</span>
-    <span class="arr">→</span>
-  </a>
-</li>`;
-    $('snippet-code').textContent = snippet;
+  // Fix content that would break Markdown list parsing: a non-breaking space (U+00A0)
+  // after a list marker ("3. text" or "- text") stops Markdown from seeing the
+  // item, so the list collapses. Normalize those markers to a plain space. Only touches
+  // the space right after the marker, so nbsp elsewhere in the text is preserved.
+  function normalizeListMarkers(md){
+    // Replace a non-breaking space (U+00A0) right after a list marker with a normal
+    // space; otherwise Markdown does not recognize the item and the list collapses.
+    return (md||'')
+      .replace(/^([ \t]*\d+\.)\u00A0/gm, '$1 ')     // ordered: "3.<nbsp>" -> "3. "
+      .replace(/^([ \t]*[-*+])\u00A0/gm, '$1 ');      // bullet:  "-<nbsp>"  -> "- "
   }
 
-  function escapeHtml(s){
-    return (s||'').replace(/[&<>"']/g, ch=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[ch]));
+  // Render markdown, then turn each <img> into a <figure> with an optional <figcaption>.
+  // Sizing is carried in the image title: "w=NN" (width, % of column) and/or "h=NN" (max height, px).
+  function renderBody(md){
+    const html = marked.parse(normalizeListMarkers(md||''));
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    tmp.querySelectorAll('img').forEach(img => {
+      const cap = img.getAttribute('alt') || '';
+      const title = img.getAttribute('title')||'';
+      const wMatch = /w=(\d+)/.exec(title);
+      const hMatch = /h=(\d+)/.exec(title);
+      const fig = document.createElement('figure');
+      fig.className = 'article-figure';
+      if(wMatch){ fig.style.width = Math.max(10,Math.min(100,parseInt(wMatch[1])))+'%'; }
+      const clone = img.cloneNode();
+      clone.removeAttribute('title');
+      if(hMatch){ // cap height, keep aspect ratio
+        const h = Math.max(20, parseInt(hMatch[1]));
+        clone.style.height = h+'px'; clone.style.width = 'auto'; clone.style.maxWidth = '100%'; clone.style.margin = '0 auto';
+      }
+      fig.appendChild(clone);
+      if(cap.trim()){ const fc = document.createElement('figcaption'); fc.textContent = cap; fig.appendChild(fc); }
+      // if the img sits alone in a <p>, replace the whole paragraph; else replace the img
+      const p = img.closest('p');
+      if(p && p.childNodes.length===1) p.replaceWith(fig); else img.replaceWith(fig);
+    });
+    return tmp.innerHTML;
+  }
+  function toast(msg, warn){const t=$('toast');t.textContent=msg;t.className='toast show'+(warn?' warn':'');setTimeout(()=>t.className='toast',1900);}
+
+  // ---------- image tokens ----------
+  // The textarea never holds the giant base64 string. Instead each embedded image is a
+  // short token like @img3, and the real data URL lives in imageStore. We expand tokens
+  // back to real data URLs only when rendering the preview and when saving to the list.
+  const imageStore = new Map();   // "@img3" -> "data:image/..."
+  let imgSeq = 0;
+  const TOKEN_RE = /@img\d+/g;
+
+  function newImageToken(dataUrl){ const tok='@img'+(++imgSeq); imageStore.set(tok, dataUrl); return tok; }
+
+  // token text -> real markdown (data URLs) for rendering / saving
+  function expandTokens(text){ return (text||'').replace(TOKEN_RE, t => imageStore.get(t) || t); }
+
+  // real markdown (data URLs) -> token text for display in the textarea.
+  // Rebuilds the store from scratch so it always matches what's on screen.
+  function tokenizeForEditor(text){
+    imageStore.clear(); imgSeq = 0;
+    // match the src inside any markdown image: ![alt](SRC "optional title")
+    // src is captured up to whitespace or ) so a following "w=NN" title is preserved.
+    return (text||'').replace(/(!\[[^\]]*\]\()(data:[^)\s]+)(\s*(?:"[^"]*")?\))/g,
+      (m, pre, src, post) => pre + newImageToken(src) + post);
   }
 
-  fields.forEach(f => $(f).addEventListener('input', render));
+  // ---------- persistence of the working copy ----------
+  function persist(){localStorage.setItem(STORE, JSON.stringify(articles));}
+  function restore(){
+    const raw = localStorage.getItem(STORE);
+    if(raw){ try{ articles = JSON.parse(raw)||[]; }catch{ articles=[]; } }
+  }
 
-  // ---- Hero upload ----
-  $('heroFile').addEventListener('change', e=>{
-    const file = e.target.files[0];
-    if(!file) return;
+  // ---------- initial load: try to fetch the live articles.json ----------
+  function boot(){
+    restore();
+    if(articles.length){
+      renderList();
+      setStatus('Restored '+articles.length+' from your last session');
+      newArticle();
+      return;
+    }
+    fetch('articles.json?v=' + Date.now())
+      .then(r => { if(!r.ok) throw 0; return r.json(); })
+      .then(data => { articles = data.articles || []; persist(); renderList(); setStatus('Loaded '+articles.length+' from articles.json'); })
+      .catch(() => { renderList(); setStatus('Start fresh — or Load articles.json'); })
+      .finally(() => newArticle());
+  }
+
+  function setStatus(msg){$('status').innerHTML = 'Working set: <b>'+articles.length+'</b> · '+esc(msg);}
+
+  // ---------- load articles.json via file picker (for file:// use) ----------
+  function loadFilePicker(){ $('jsonPicker').click(); }
+  $('jsonPicker').addEventListener('change', e=>{
+    const file = e.target.files[0]; if(!file) return;
     const reader = new FileReader();
     reader.onload = ev => {
-      heroDataUrl = ev.target.result;
-      $('heroLbl').textContent = `✓ ${file.name} (${Math.round(file.size/1024)} KB)`;
-      render();
+      try{
+        const data = JSON.parse(ev.target.result);
+        articles = data.articles || (Array.isArray(data)?data:[]);
+        persist(); renderList(); newArticle();
+        setStatus('Loaded '+articles.length+' from file');
+        toast('Loaded '+articles.length+' articles');
+      }catch{ toast('That file is not valid JSON', true); }
     };
-    reader.readAsDataURL(file);
+    reader.readAsText(file);
+    e.target.value='';
   });
 
-  // ---- Toolbar insertion ----
-  function insertMd(before, after){
-    const ta = $('body');
-    const s = ta.selectionStart, e = ta.selectionEnd;
-    const sel = ta.value.substring(s,e);
-    ta.value = ta.value.substring(0,s) + before + sel + after + ta.value.substring(e);
+  // ---------- sidebar list ----------
+  function renderList(){
+    const wrap = $('art-list');
+    if(!articles.length){
+      wrap.innerHTML = '<div class="empty">No articles yet. Click <b>+ New</b> to write one, or <b>Load articles.json</b> to pull in your existing set.</div>';
+      return;
+    }
+    // Articles are shown (and saved) in this exact order — it's the order on the site.
+    const hint = '<div class="order-hint">This order is the order on the site. Use ▲▼ to rearrange.</div>';
+    wrap.innerHTML = hint + articles.map((a, i) =>
+      '<div class="art-item'+(a.slug===editingSlug?' active':'')+'" onclick="editArticle(\''+esc(a.slug)+'\')">'+
+        '<button class="del" title="Delete" onclick="event.stopPropagation();deleteArticle(\''+esc(a.slug)+'\')">✕</button>'+
+        '<div class="t">'+esc((a.title||'Untitled').replace(/\*/g,''))+'</div>'+
+        '<div class="m">'+esc(a.year||'—')+' · '+esc(a.category||'')+'</div>'+
+        '<div class="move">'+
+          '<button title="Move up" '+(i===0?'disabled':'')+' onclick="event.stopPropagation();moveArticle('+i+',-1)">▲</button>'+
+          '<button title="Move down" '+(i===articles.length-1?'disabled':'')+' onclick="event.stopPropagation();moveArticle('+i+',1)">▼</button>'+
+        '</div>'+
+      '</div>'
+    ).join('');
+  }
+
+  // Move the article at index i up (dir=-1) or down (dir=1); persists the new order.
+  function moveArticle(i, dir){
+    const j = i + dir;
+    if(j < 0 || j >= articles.length) return;
+    [articles[i], articles[j]] = [articles[j], articles[i]];
+    persist(); renderList();
+    setStatus('order changed — remember to Download');
+  }
+
+  // ---------- form <-> article ----------
+  function formToArticle(){
+    return {
+      slug: ($('slug').value||'').trim().toLowerCase().replace(/[^a-z0-9-]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,''),
+      title: $('title').value.trim(),
+      dek: $('dek').value.trim(),
+      category: $('category').value,
+      year: $('year').value.trim(),
+      date: $('date').value.trim(),
+      readtime: $('readtime').value.trim(),
+      body: expandTokens($('body').value)   // store the real data URLs, not the @imgN tokens
+    };
+  }
+  function articleToForm(a){
+    $('slug').value = a.slug||'';
+    $('title').value = a.title||'';
+    $('dek').value = a.dek||'';
+    $('category').value = a.category||'Politics & Policy';
+    $('year').value = a.year||'';
+    $('date').value = a.date||'';
+    $('readtime').value = a.readtime||'';
+    $('body').value = tokenizeForEditor(a.body||'');   // show short tokens in the editor
+  }
+
+  function newArticle(){
+    editingSlug = null;
+    imageStore.clear(); imgSeq = 0;
+    fields.forEach(f => { if(f==='category') $(f).value='Politics & Policy'; else $(f).value=''; });
+    if(!$('year').value) $('year').value = String(new Date().getFullYear());
+    $('editing-tag').textContent='New article';
+    $('form-title').textContent='Compose';
+    $('deleteBtn').style.display='none';
+    renderList(); render();
+  }
+
+  function editArticle(slug){
+    const a = articles.find(x=>x.slug===slug); if(!a) return;
+    editingSlug = slug;
+    articleToForm(a);
+    $('editing-tag').textContent='Editing';
+    $('form-title').textContent=(a.title||'Untitled').replace(/\*/g,'');
+    $('deleteBtn').style.display='block';
+    renderList(); render();
+    window.scrollTo(0,0);
+  }
+
+  function saveArticle(){
+    const a = formToArticle();
+    if(!a.slug){ toast('A filename (slug) is required', true); $('slug').focus(); return; }
+    if(!a.title){ toast('A title is required', true); $('title').focus(); return; }
+
+    // slug collision check (only against OTHER articles)
+    const clashIdx = articles.findIndex(x => x.slug===a.slug && x.slug!==editingSlug);
+    if(clashIdx>=0){ toast('Another article already uses slug "'+a.slug+'"', true); return; }
+
+    if(editingSlug){
+      const idx = articles.findIndex(x=>x.slug===editingSlug);
+      if(idx>=0) articles[idx]=a; else articles.push(a);
+    } else {
+      articles.push(a);
+    }
+    editingSlug = a.slug;
+    persist(); renderList(); setStatus('unsaved changes — remember to Download');
+    $('editing-tag').textContent='Editing'; $('form-title').textContent=a.title.replace(/\*/g,''); $('deleteBtn').style.display='block';
+    toast('Saved to list — download the JSON when done');
+  }
+
+  function deleteArticle(slug){
+    const a = articles.find(x=>x.slug===slug);
+    if(!confirm('Delete "'+((a&&a.title)||slug).replace(/\*/g,'')+'"?\n\nThis removes it from the working list. You still need to Download articles.json to make it permanent.')) return;
+    articles = articles.filter(x=>x.slug!==slug);
+    if(editingSlug===slug) newArticle();
+    persist(); renderList(); setStatus('unsaved changes — remember to Download');
+    toast('Removed from list');
+  }
+  function deleteCurrent(){ if(editingSlug) deleteArticle(editingSlug); }
+
+  // ---------- download the whole articles.json ----------
+  function downloadJson(){
+    const out = { articles };   // keep the exact order shown in the list = order on the site
+    const blob = new Blob([JSON.stringify(out, null, 2)+'\n'], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href=url; link.download='articles.json'; link.click();
+    URL.revokeObjectURL(url);
+    toast('Downloaded articles.json — replace the file in your repo');
+  }
+
+  // ---------- insert an inline image at the cursor ----------
+  const MAX_IMG_WIDTH = 1200;   // downscale wider images to this (never upscale)
+  const JPEG_QUALITY  = 0.82;   // re-encode opaque images as JPEG at this quality
+
+  // roughly how many bytes a dataURL string represents (base64 is ~4/3 of the bytes)
+  function dataUrlBytes(u){ const i=u.indexOf(','); return Math.round((u.length-i-1)*0.75); }
+
+  // Downscale + re-encode an image file. JPEG for opaque images (much smaller);
+  // PNG kept only when the source actually has transparent pixels. Returns a Promise<dataURL>.
+  function compressImage(file){
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const scale = Math.min(1, MAX_IMG_WIDTH / img.naturalWidth);
+        const w = Math.max(1, Math.round(img.naturalWidth  * scale));
+        const h = Math.max(1, Math.round(img.naturalHeight * scale));
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+
+        // Does this image have any transparency? (only possible for these source types)
+        let hasAlpha = false;
+        if(/png|gif|webp/i.test(file.type)){
+          try{
+            const data = ctx.getImageData(0,0,w,h).data;
+            for(let i=3; i<data.length; i+=4){ if(data[i] < 255){ hasAlpha = true; break; } }
+          }catch{ hasAlpha = true; } // if we can't inspect, play safe and keep PNG
+        }
+        const out = hasAlpha ? canvas.toDataURL('image/png')
+                             : canvas.toDataURL('image/jpeg', JPEG_QUALITY);
+        resolve(out);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('decode failed')); };
+      img.src = url;
+    });
+  }
+
+  // Shared embedder used by both the file picker and clipboard paste.
+  function embedImageFile(file, {askCaption=true}={}){
+    if(!file) return;
+    const cap = askCaption ? (prompt('Optional caption for this image (leave blank for none):','')||'').trim() : '';
+    const clean = cap.replace(/[\[\]]/g,'');
+    // The textarea only ever gets a short token — the real data URL is kept in imageStore.
+    const insertToken = (dataUrl, kb) => {
+      const tok = newImageToken(dataUrl);
+      insertMd('\n\n!['+clean+']('+tok+')\n\n','');
+      toast('Image inserted'+(kb?' (~'+kb+' KB)':''));
+    };
+    compressImage(file)
+      .then(dataUrl => {
+        const kb = Math.round(dataUrlBytes(dataUrl)/1024);
+        if(kb > 500 && !confirm('Even after compression this image is ~'+kb+' KB, which will bloat articles.json. Insert anyway?')) return;
+        insertToken(dataUrl, kb);
+      })
+      .catch(() => {
+        // Fallback: couldn't process (rare) — embed the raw file so nothing is lost
+        const reader = new FileReader();
+        reader.onload = ev => insertToken(ev.target.result, 0);
+        reader.readAsDataURL(file);
+      });
+  }
+
+  // From the 🖼 button / file picker
+  $('imgFile').addEventListener('change', e=>{ embedImageFile(e.target.files[0]); e.target.value=''; });
+
+  // From the clipboard — paste a copied screenshot OR a copied/right-click-copied image.
+  $('body').addEventListener('paste', e=>{
+    const cd = e.clipboardData || window.clipboardData;
+    if(!cd) return;
+
+    // 1) Copied image FILES (e.g. Ctrl+C on a file, or many "Copy image" sources) show up here.
+    if(cd.files && cd.files.length){
+      for(const f of cd.files){
+        if(f.type.startsWith('image/')){ e.preventDefault(); embedImageFile(f); return; }
+      }
+    }
+    // 2) Otherwise scan items for anything that is an image, regardless of kind.
+    if(cd.items){
+      for(const it of cd.items){
+        if(it.type && it.type.startsWith('image/')){
+          const f = it.getAsFile();
+          if(f){ e.preventDefault(); embedImageFile(f); return; }
+        }
+      }
+    }
+
+    // 3) Text paste. Preserve sub/sup + lists from rich HTML, keep unicode sub/sup from
+    //    plain text, and always fix paragraph spacing so pasted prose reads correctly.
+    const html = cd.getData && cd.getData('text/html');
+    const plain = cd.getData && cd.getData('text/plain');
+    const htmlHasRich = html && /<(su[bp]|[uo]l|li)[\s>]/i.test(html);   // sub/sup or a list
+
+    let converted = null;
+    if(htmlHasRich)            converted = htmlToMarkdown(html);
+    else if(plain)            converted = unicodeSubSupToTags(plain);   // plain text (also fixes unicode sub/sup)
+
+    if(converted !== null){
+      converted = paragraphize(converted);
+      e.preventDefault();
+      insertPlainAtCursor(converted);
+      return;
+    }
+    // nothing usable → let the normal text paste happen
+  });
+
+  // Ensure paragraphs are separated by a blank line. Lines of prose joined by a single
+  // newline render as one cramped block in Markdown; turn those single breaks between
+  // prose lines into paragraph breaks. Lists, headings, quotes, tables and images are
+  // left exactly as-is, and existing blank-line spacing is preserved.
+  function paragraphize(text){
+    const lines = (text||'').replace(/\r\n?/g,'\n').split('\n');
+    const isSpecial = l => /^\s*([-*+]\s|\d+\.\s|#{1,6}\s|>|\||!\[|```)/.test(l) || /^\s*$/.test(l);
+    let out = [];
+    for(let i=0; i<lines.length; i++){
+      const line = lines[i];
+      out.push(line);
+      const next = lines[i+1];
+      if(next === undefined) break;
+      // between two non-blank PROSE lines with no blank line, insert one
+      if(line.trim() && next.trim() && !isSpecial(line) && !isSpecial(next)){
+        out.push('');
+      }
+    }
+    return out.join('\n').replace(/\n{3,}/g,'\n\n');
+  }
+
+  // Apply a new textarea value + caret selection WITHOUT the view jumping.
+  // Setting .value resets scrollTop and focusing scrolls the caret into view, which
+  // yanks the user away from where they were editing. Preserve the scroll position.
+  function setBody(newValue, selStart, selEnd){
+    const ta=$('body');
+    const keepScroll = ta.scrollTop;
+    ta.value = newValue;
     ta.focus();
-    ta.selectionStart = s + before.length;
-    ta.selectionEnd = s + before.length + sel.length;
+    ta.selectionStart = selStart;
+    ta.selectionEnd = (selEnd===undefined ? selStart : selEnd);
+    ta.scrollTop = keepScroll;     // restore after focus — don't jump to top/bottom
     render();
   }
 
-  // ---- Tabs ----
+  // insert text at the cursor without wrapping (unlike insertMd which brackets a selection)
+  function insertPlainAtCursor(text){
+    text = normalizeListMarkers(text);   // keep pasted lists from breaking on nbsp markers
+    const ta=$('body'), s=ta.selectionStart, e=ta.selectionEnd;
+    setBody(ta.value.slice(0,s) + text + ta.value.slice(e), s + text.length);
+  }
+
+  // ---------- toolbar ----------
+  function insertMd(before, after){
+    const ta=$('body'), s=ta.selectionStart, e=ta.selectionEnd, sel=ta.value.substring(s,e);
+    setBody(ta.value.substring(0,s)+before+sel+after+ta.value.substring(e),
+            s+before.length, s+before.length+sel.length);
+  }
+
+  // Turn the selected lines into a bullet or numbered list (numbers auto-track).
+  // With no selection, start a fresh list item at the cursor.
+  function makeList(kind){
+    const ta=$('body'), s=ta.selectionStart, e=ta.selectionEnd, sel=ta.value.substring(s,e);
+    const bullet = line => '- '+line;
+    if(!sel){
+      // no selection → drop in one starter item on its own line
+      insertMd(kind==='number' ? '\n1. ' : '\n- ', '');
+      return;
+    }
+    let n=1;
+    const out = sel.split('\n').map(line=>{
+      const t=line.trim();
+      if(!t) return line;                    // keep blank lines as separators
+      const clean=t.replace(/^(\d+\.\s+|[-*]\s+)/,''); // strip an existing marker first
+      return kind==='number' ? (n++)+'. '+clean : bullet(clean);
+    }).join('\n');
+    // ensure the list starts on its own line
+    const needsNL = s>0 && ta.value[s-1] !== '\n';
+    const block = (needsNL?'\n':'') + out;
+    setBody(ta.value.slice(0,s) + block + ta.value.slice(e), s, s+block.length);
+  }
+
+  // ---------- image tag find / rebuild (caption + optional width/height) ----------
+  // A tag looks like: ![caption](@img1)  or with sizing: ![caption](@img1 "w=60 h=300")
+  //   w = width as a percent of the column (10–100); h = max height in pixels.
+  const IMG_TAG_RE = /!\[([^\]]*)\]\((@img\d+|data:[^)\s]+)(?:\s+"([^"]*)")?\)/g;
+
+  function findImages(text){
+    const imgs=[]; let m;
+    IMG_TAG_RE.lastIndex=0;
+    while((m = IMG_TAG_RE.exec(text))){
+      const title = m[3]||'';
+      const wMatch = /w=(\d+)/.exec(title);
+      const hMatch = /h=(\d+)/.exec(title);
+      imgs.push({start:m.index, end:m.index+m[0].length, caption:m[1], src:m[2],
+                 width: wMatch?parseInt(wMatch[1]):null, height: hMatch?parseInt(hMatch[1]):null});
+    }
+    return imgs;
+  }
+  function nearestImage(text, cur){
+    const imgs = findImages(text);
+    if(!imgs.length) return null;
+    let target=imgs[0], best=Infinity;
+    imgs.forEach(im=>{ const d=(cur<im.start)?im.start-cur:(cur>im.end?cur-im.end:0); if(d<best){best=d;target=im;} });
+    return target;
+  }
+  function buildImageTag(caption, src, width, height){
+    const cap=(caption||'').replace(/[\[\]]/g,'').trim();
+    const parts=[];
+    if(width) parts.push('w='+width);
+    if(height) parts.push('h='+height);
+    const title = parts.length ? ' "'+parts.join(' ')+'"' : '';
+    return '!['+cap+']('+src+title+')';
+  }
+  function replaceImageTag(target, rebuilt){
+    const text=$('body').value;
+    setBody(text.slice(0,target.start)+rebuilt+text.slice(target.end), target.start+rebuilt.length);
+  }
+
+  // Edit (or add) the caption of an already-inserted image.
+  function editImageCaption(){
+    const t = nearestImage($('body').value, $('body').selectionStart);
+    if(!t){ toast('No image in this article to caption', true); return; }
+    const next = prompt('Caption for this image (leave blank to remove the caption):', t.caption);
+    if(next === null) return;
+    replaceImageTag(t, buildImageTag(next, t.src, t.width, t.height));   // keep existing size
+    toast(next.trim() ? 'Caption updated' : 'Caption removed');
+  }
+
+  // Resize an already-inserted image: width as % of the column, plus an optional max height in px.
+  function resizeImage(){
+    const t = nearestImage($('body').value, $('body').selectionStart);
+    if(!t){ toast('No image to resize', true); return; }
+
+    // width
+    const wAns = prompt('Image WIDTH as a percent of the column (10–100). Enter 100 for full width:', t.width || 100);
+    if(wAns === null) return;
+    let w = parseInt(wAns, 10);
+    if(isNaN(w)){ toast('Width must be a number between 10 and 100', true); return; }
+    w = Math.max(10, Math.min(100, w));
+
+    // height (optional — blank clears it, keeps aspect ratio)
+    const hAns = prompt('Max HEIGHT in pixels (keeps aspect ratio). Leave blank for no height limit:', t.height || '');
+    if(hAns === null) return;
+    let h = null;
+    if(hAns.trim() !== ''){
+      h = parseInt(hAns, 10);
+      if(isNaN(h) || h < 20){ toast('Height must be a number of at least 20 (px), or blank', true); return; }
+    }
+
+    replaceImageTag(t, buildImageTag(t.caption, t.src, w===100 ? null : w, h));
+    toast('Image set to '+w+'% width'+(h?', max '+h+'px tall':''));
+  }
+
+  // ---------- tabs ----------
   function setTab(t){
-    document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab===t));
-    $('tab-article').style.display = t==='article' ? 'block' : 'none';
-    $('tab-snippet').style.display = t==='snippet' ? 'block' : 'none';
+    document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+    $('tab-article').style.display = t==='article'?'block':'none';
+    $('tab-listing').style.display = t==='listing'?'block':'none';
   }
 
-  // ---- Toast ----
-  function toast(msg){
-    const t = $('toast'); t.textContent = msg; t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'), 1800);
+  // ---------- live preview ----------
+  function render(){
+    const t=$('title').value||'Your headline appears here';
+    const d=$('dek').value||'Your italic subtitle sits below.';
+    const c=$('category').value;
+    $('p-title').innerHTML=accentTitle(t);
+    $('p-dek').textContent=d;
+    $('p-kicker').textContent=c; $('p-cat').textContent=c;
+    const dv=$('date').value.trim(), rv=$('readtime').value.trim();
+    $('p-date').textContent=dv; $('p-date').style.display=dv?'':'none';
+    $('p-rt').textContent=rv; $('p-rt').style.display=rv?'':'none';
+    $('p-body').innerHTML=renderBody(expandTokens($('body').value)||'Start writing in the Markdown box to the left — your article renders here as you type.');
+
+    $('l-yr').textContent=$('year').value||new Date().getFullYear();
+    $('l-title').innerHTML=accentTitle(t);
+    $('l-dek').textContent=d;
+    $('l-cat').textContent=c;
   }
+  fields.forEach(f => $(f).addEventListener('input', render));
 
-  // ---- Draft save/load (localStorage) ----
-  function saveDraft(){
-    const data = {};
-    fields.forEach(f => data[f] = $(f).value);
-    data.heroDataUrl = heroDataUrl;
-    localStorage.setItem('hbs_draft', JSON.stringify(data));
-    toast('Draft saved');
-  }
-  function loadDraft(){
-    const raw = localStorage.getItem('hbs_draft');
-    if(!raw) return;
-    try{
-      const d = JSON.parse(raw);
-      fields.forEach(f => { if(d[f]) $(f).value = d[f]; });
-      if(d.heroDataUrl){ heroDataUrl = d.heroDataUrl; $('heroLbl').textContent = '✓ Restored from saved draft'; }
-      render();
-    }catch{}
-  }
-  loadDraft();
-
-  // ---- Copy snippet ----
-  function copySnippet(){
-    renderSnippet();
-    navigator.clipboard.writeText($('snippet-code').textContent);
-    toast('Homepage snippet copied');
-  }
-
-  // ---- Download article ----
-  function downloadArticle(){
-    const slug = ($('slug').value || 'untitled').trim().toLowerCase().replace(/[^a-z0-9-]/g,'-');
-    const title = $('title').value || 'Untitled';
-    const dek = $('dek').value || '';
-    const cat = $('category').value;
-    const date = $('date').value || '';
-    const rt = $('readtime').value || '';
-    const caption = $('caption').value || '';
-    const bodyHtml = marked.parse($('body').value || '');
-    const titleHtml = processTitle(title);
-    const heroStyle = heroDataUrl
-      ? `style="background:url('${heroDataUrl}') center/cover"`
-      : '';
-
-    const html = buildArticleHTML({slug, title, titleHtml, dek, cat, date, rt, caption, bodyHtml, heroStyle});
-
-    const blob = new Blob([html], {type:'text/html'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = `${slug}.html`; a.click();
-    URL.revokeObjectURL(url);
-    toast(`Downloaded ${slug}.html`);
-  }
-
-  // ---- Article HTML template ----
-  function buildArticleHTML({slug, title, titleHtml, dek, cat, date, rt, caption, bodyHtml, heroStyle}){
-    const plainTitle = title.replace(/\*/g,'');
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>${escapeHtml(plainTitle)} — Hridhaye Bir Singh</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{--paper:#FAFAF7;--paper-2:#F2EFE8;--ink:#1B2A28;--ink-2:#2f3d3b;--muted:#6b7572;--rule:#d8d4c8;--rule-soft:#e8e4d8;--green:#2F5D50;--green-dark:#1f4338;--blue:#3A5A7C;--sand:#C9B68B;--top-bar:#1f3a36}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
-  a{color:inherit;text-decoration:none}a:hover{color:var(--green)}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 36px}
-  .top-bar{background:var(--top-bar);padding:11px 0}
-  .top-bar .row{display:flex;justify-content:flex-end;align-items:center;gap:36px;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#e8e4d8}
-  .top-bar a{color:#e8e4d8}.top-bar a:hover{color:#fff}
-  .top-bar .sep{opacity:.3;font-size:9px}
-  .logo-band{background:#fff;padding:32px 0;border-bottom:1px solid var(--rule-soft)}
-  .logo-band .row{display:flex;justify-content:center;align-items:center;gap:18px}
-  .mark{width:46px;height:46px;border:1.5px solid var(--green-dark);border-radius:50%;display:grid;place-items:center;position:relative}
-  .mark::before{content:"";position:absolute;inset:5px;border:1px solid var(--green-dark);border-radius:50%}
-  .mark span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:var(--green-dark);font-style:italic;line-height:1}
-  .brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:38px;color:var(--green-dark);line-height:1}
-  .brand-name sup{font-size:11px;font-weight:500;color:var(--muted);margin-left:4px;position:relative;top:-14px}
-  nav.main{background:var(--ink);padding:16px 0}
-  nav.main .row{display:flex;justify-content:center;align-items:center;gap:48px;font-family:'Source Serif 4',serif;font-size:15.5px;color:#e8e4d8}
-  nav.main a{color:#e8e4d8;padding:4px 2px;position:relative;font-weight:500}
-  nav.main a::after{content:"";position:absolute;left:50%;right:50%;bottom:-4px;height:1px;background:var(--sand);transition:left .2s,right .2s}
-  nav.main a:hover{color:#fff}
-  nav.main a:hover::after,nav.main a.active::after{left:0;right:0}
-  nav.main a.active{color:#fff}
-
-  .crumbs{border-bottom:1px solid var(--rule-soft);padding:12px 0;font-family:'Inter',sans-serif;font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
-  .crumbs a:hover{color:var(--green)}.crumbs span{margin:0 10px;color:var(--rule)}
-
-  .art-head{max-width:760px;margin:0 auto;padding:64px 36px 36px;text-align:center}
-  .kicker{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--green);margin-bottom:22px}
-  .art-head h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,5.2vw,60px);line-height:1.08;letter-spacing:-.018em;margin-bottom:22px}
-  .art-head h1 em{font-style:italic;color:var(--green)}
-  .dek{font-style:italic;font-size:21px;line-height:1.45;color:var(--ink-2);max-width:660px;margin:0 auto 32px}
-  .byline{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft);font-family:'Inter',sans-serif;font-size:11.5px;letter-spacing:.08em;color:var(--muted)}
-  .byline .author{color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.12em}
-
-  .hero{max-width:1080px;margin:32px auto 0;padding:0 36px}
-  .hero .img{width:100%;aspect-ratio:16/9;background:linear-gradient(160deg,#0f2a26 0%,#1f4338 35%,#3a5a7c 75%,#86b3d6 100%);position:relative;filter:saturate(.92)}
-  .caption{max-width:760px;margin:14px auto 56px;padding:0 36px;font-family:'Inter',sans-serif;font-size:11.5px;color:var(--muted);line-height:1.55}
-  .caption b{color:var(--ink);font-weight:600}
-
-  article.body{max-width:680px;margin:0 auto;padding:0 36px 56px}
-  article.body p{font-size:19px;line-height:1.7;color:var(--ink-2);margin-bottom:22px}
-  article.body p:first-of-type::first-letter{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:78px;float:left;line-height:.82;padding:6px 14px 0 0;color:var(--green);font-style:italic}
-  article.body h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.2;margin:44px 0 14px}
-  article.body h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;line-height:1.25;margin:30px 0 10px}
-  article.body a{color:var(--green);border-bottom:1px solid rgba(47,93,80,.4)}
-  article.body ul,article.body ol{padding-left:24px;margin-bottom:22px}
-  article.body li{font-size:19px;line-height:1.7;color:var(--ink-2);margin-bottom:8px}
-  article.body blockquote{margin:44px 0;padding:8px 0;border-top:2px solid var(--green);border-bottom:1px solid var(--rule-soft);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:28px;line-height:1.32;color:var(--ink)}
-  article.body blockquote p{font-size:28px;line-height:1.32;font-style:italic;color:var(--ink);margin:20px 0}
-  article.body hr{border:none;text-align:center;margin:40px 0;font-family:'Inter',sans-serif;font-size:14px;letter-spacing:1em;color:var(--green)}
-  article.body hr::before{content:"• • •"}
-
-  .author-tag{max-width:680px;margin:32px auto 0;padding:24px 36px 0;border-top:1px solid var(--rule);font-size:15.5px;color:var(--ink-2);line-height:1.6}
-  .author-tag b{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--ink);display:block;margin-bottom:5px}
-
-  footer.site{background:var(--ink);color:#a8b3b0;padding:36px 0 32px;margin-top:56px}
-  footer .row{display:flex;justify-content:space-between;align-items:center;font-family:'Inter',sans-serif;font-size:11.5px}
-  footer .l{display:flex;gap:10px;align-items:baseline}
-  footer .l b{font-family:'Cormorant Garamond',serif;color:#f2efe8;font-weight:600;font-size:15px;font-style:italic}
-  footer .r{display:flex;gap:22px}
-  footer .r a:hover{color:#f2efe8}
-
-  @media (max-width:900px){
-    .wrap{padding:0 24px}.top-bar .row{gap:18px;font-size:10.5px}.brand-name{font-size:30px}
-    nav.main .row{gap:24px;font-size:14px}
-  }
-</style>
-</head>
-<body>
-
-<div class="top-bar"><div class="wrap row">
-  <a href="about.html">About</a><span class="sep">◆</span>
-  <a href="index.html#writing">Writing</a><span class="sep">◆</span>
-  <a href="mailto:singhhridhaye@gmail.com">Get in touch</a>
-</div></div>
-
-<div class="logo-band"><div class="wrap row">
-  <div class="mark"><span>H</span></div>
-  <div class="brand-name">Hridhaye Bir Singh<sup>®</sup></div>
-</div></div>
-
-<nav class="main"><div class="wrap row">
-  <a href="index.html">Home</a>
-  <a href="index.html#writing">Writing</a>
-  <a href="about.html">About</a>
-  <a href="mailto:singhhridhaye@gmail.com">Contact</a>
-</div></nav>
-
-<div class="crumbs"><div class="wrap">
-  <a href="index.html">Writing</a><span>/</span>${escapeHtml(cat)}
-</div></div>
-
-<header class="art-head">
-  <div class="kicker">${escapeHtml(cat)}</div>
-  <h1>${titleHtml}</h1>
-  <p class="dek">${escapeHtml(dek)}</p>
-  <div class="byline">
-    <span class="author">By Hridhaye Bir Singh</span>
-    <span>${escapeHtml(date)}</span>
-    <span>${escapeHtml(rt)}</span>
-  </div>
-</header>
-
-<div class="hero"><div class="img" ${heroStyle}></div></div>
-${caption ? `<p class="caption">${escapeHtml(caption)}</p>` : '<div style="height:32px"></div>'}
-
-<article class="body">
-${bodyHtml}
-<div class="author-tag">
-  <b>Hridhaye Bir Singh</b>
-  is a writer and communications professional based in Toronto, reporting on policy, culture, and healthcare.
-</div>
-</article>
-
-<footer class="site"><div class="wrap row">
-  <div class="l">© <span id="yr"></span> <b>Hridhaye Bir Singh</b></div>
-  <div class="r">
-    <a href="about.html">About</a>
-    <a href="index.html#writing">Writing</a>
-    <a href="mailto:singhhridhaye@gmail.com">Email</a>
-  </div>
-</div></footer>
-<script>document.getElementById('yr').textContent=new Date().getFullYear();<\/script>
-</body>
-</html>`;
-  }
-
-  render();
+  boot();
 </script>
 </body>
 </html>

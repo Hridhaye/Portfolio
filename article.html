@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hridhaye Bir Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root{
+    --paper:#FAFAF7;--paper-2:#F2EFE8;--ink:#1B2A28;--ink-2:#2f3d3b;
+    --muted:#6b7572;--rule:#d8d4c8;--rule-soft:#e8e4d8;
+    --green:#2F5D50;--green-dark:#1f4338;--blue:#3A5A7C;--sand:#C9B68B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}a:hover{color:var(--green)}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 36px}
+
+  .logo-band{background:#fff;padding:30px 0 24px;border-bottom:1px solid var(--rule-soft)}
+  .logo-band .row{display:flex;justify-content:center;align-items:center;gap:18px}
+  .mark{width:44px;height:44px;border:1.5px solid var(--green-dark);border-radius:50%;display:grid;place-items:center;position:relative}
+  .mark::before{content:"";position:absolute;inset:5px;border:1px solid var(--green-dark);border-radius:50%}
+  .mark span{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--green-dark);font-style:italic;line-height:1}
+  .brand-name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:36px;color:var(--green-dark);line-height:1}
+  nav.main{background:var(--ink);padding:14px 0}
+  nav.main .row{display:flex;justify-content:center;align-items:center;gap:56px;font-family:'Source Serif 4',serif;font-size:15.5px;color:#e8e4d8}
+  nav.main a{color:#e8e4d8;padding:4px 2px;position:relative;font-weight:500}
+  nav.main a::after{content:"";position:absolute;left:50%;right:50%;bottom:-4px;height:1px;background:var(--sand);transition:left .2s,right .2s}
+  nav.main a:hover{color:#fff}
+  nav.main a:hover::after,nav.main a.active::after{left:0;right:0}
+  nav.main a.active{color:#fff}
+
+  .crumbs{border-bottom:1px solid var(--rule-soft);padding:12px 0;font-family:'Inter',sans-serif;font-size:11.5px;letter-spacing:.06em;color:var(--muted)}
+  .crumbs a:hover{color:var(--green)}.crumbs span{margin:0 10px;color:var(--rule)}
+
+  .art-head{max-width:760px;margin:0 auto;padding:64px 36px 36px;text-align:center}
+  .kicker{font-family:'Inter',sans-serif;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--green);margin-bottom:22px}
+  .art-head h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(36px,5.2vw,60px);line-height:1.08;letter-spacing:-.018em;margin-bottom:22px}
+  .art-head h1 em{font-style:italic;color:var(--green)}
+  .dek{font-style:italic;font-size:21px;line-height:1.45;color:var(--ink-2);max-width:660px;margin:0 auto 32px}
+  .byline{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft);font-family:'Inter',sans-serif;font-size:11.5px;letter-spacing:.08em;color:var(--muted)}
+  .byline .author{color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.12em}
+
+  article.body{max-width:680px;margin:0 auto;padding:0 36px 56px}
+  article.body > :first-child{margin-top:0}
+  article.body .article-figure{margin:40px auto}
+  article.body .article-figure img{width:100%;height:auto;display:block;border:1px solid var(--rule-soft)}
+  article.body .article-figure figcaption{font-family:'Inter',sans-serif;font-size:12px;color:var(--muted);line-height:1.55;margin-top:10px}
+  article.body img{max-width:100%;height:auto}
+  article.body p{font-size:19px;line-height:1.7;color:var(--ink-2);margin-bottom:22px}
+  article.body > p:first-of-type::first-letter{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:78px;float:left;line-height:.82;padding:6px 14px 0 0;color:var(--green);font-style:italic}
+  article.body h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:30px;line-height:1.2;margin:44px 0 14px}
+  article.body h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:22px;line-height:1.25;margin:30px 0 10px}
+  article.body a{color:var(--green);border-bottom:1px solid rgba(47,93,80,.4)}
+  article.body ul,article.body ol{padding-left:24px;margin-bottom:22px}
+  article.body li{font-size:19px;line-height:1.7;color:var(--ink-2);margin-bottom:8px}
+  article.body blockquote{margin:44px 0;padding:8px 0;border-top:2px solid var(--green);border-bottom:1px solid var(--rule-soft);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:28px;line-height:1.32;color:var(--ink)}
+  article.body blockquote p{font-size:28px;line-height:1.32;font-style:italic;color:var(--ink);margin:20px 0}
+  article.body blockquote p::first-letter{font-size:inherit;float:none;padding:0;color:inherit;font-family:inherit}
+  article.body hr{border:none;text-align:center;margin:40px 0;font-family:'Inter',sans-serif;font-size:14px;letter-spacing:1em;color:var(--green)}
+  article.body hr::before{content:"• • •"}
+  article.body code{background:var(--paper-2);padding:1px 5px;font-size:15px;border-radius:2px;font-family:ui-monospace,monospace}
+
+  .author-tag{max-width:680px;margin:32px auto 0;padding:24px 36px 0;border-top:1px solid var(--rule);font-size:15.5px;color:var(--ink-2);line-height:1.6}
+  .author-tag b{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:19px;color:var(--ink);display:block;margin-bottom:5px}
+
+  .more-link{max-width:680px;margin:36px auto 0;padding:0 36px}
+  .more-link a{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);border:1px solid var(--green);padding:12px 24px;display:inline-block;transition:all .15s}
+  .more-link a:hover{background:var(--green);color:#fff}
+
+  .state{max-width:680px;margin:80px auto;padding:0 36px;text-align:center}
+  .state h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:40px;margin-bottom:16px}
+  .state p{color:var(--muted);font-size:17px;line-height:1.6;margin-bottom:24px}
+  .state code{background:var(--paper-2);padding:2px 6px;border-radius:2px;font-family:ui-monospace,monospace;font-size:14px}
+
+  footer.site{background:var(--ink);color:#a8b3b0;padding:36px 0 32px;margin-top:56px}
+  footer .row{display:flex;justify-content:space-between;align-items:center;font-family:'Inter',sans-serif;font-size:11.5px}
+  footer .l{display:flex;gap:10px;align-items:baseline}
+  footer .l b{font-family:'Cormorant Garamond',serif;color:#f2efe8;font-weight:600;font-size:15px;font-style:italic}
+  footer .r{display:flex;gap:22px}
+  footer .r a:hover{color:#f2efe8}
+
+  @media (max-width:900px){
+    .wrap{padding:0 24px}.brand-name{font-size:30px}
+    nav.main .row{gap:32px;font-size:14px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="main"><div class="wrap row">
+  <a href="index.html">Home</a>
+  <a href="writing.html">Writing</a>
+</div></nav>
+
+<div class="logo-band"><div class="wrap row">
+  <div class="mark"><span>H</span></div>
+  <div class="brand-name">Hridhaye Bir Singh</div>
+</div></div>
+
+<div id="root"></div>
+
+<footer class="site"><div class="wrap row">
+  <div class="l">© <span id="yr"></span> <b>Hridhaye Bir Singh</b></div>
+  <div class="r">
+    <a href="writing.html">Writing</a>
+    <a href="mailto:singhhridhaye@gmail.com">Email</a>
+  </div>
+</div></footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const $root = document.getElementById('root');
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('slug');
+
+  function esc(s){return (s||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+  // *word* in a title becomes a green italic accent
+  function accentTitle(t){return esc(t).replace(/\*(.+?)\*/g,'<em>$1</em>');}
+  // A non-breaking space right after a list marker ("3.<nbsp>" / "-<nbsp>") stops Markdown
+  // from recognizing the item, collapsing the list. Normalize just that space.
+  function normalizeListMarkers(md){
+    return (md||'')
+      .replace(/^([ \t]*\d+\.)\u00A0/gm, '$1 ')
+      .replace(/^([ \t]*[-*+])\u00A0/gm, '$1 ');
+  }
+  // Render markdown, then turn each <img alt="caption"> into a <figure> with a <figcaption>.
+  function renderBody(md){
+    const tmp = document.createElement('div');
+    tmp.innerHTML = marked.parse(normalizeListMarkers(md||''));
+    tmp.querySelectorAll('img').forEach(img => {
+      const cap = img.getAttribute('alt') || '';
+      const title = img.getAttribute('title')||'';
+      const wMatch = /w=(\d+)/.exec(title);
+      const hMatch = /h=(\d+)/.exec(title);
+      const fig = document.createElement('figure');
+      fig.className = 'article-figure';
+      if(wMatch){ fig.style.width = Math.max(10,Math.min(100,parseInt(wMatch[1])))+'%'; }
+      const clone = img.cloneNode();
+      clone.removeAttribute('title');
+      if(hMatch){ // cap height, keep aspect ratio
+        const h = Math.max(20, parseInt(hMatch[1]));
+        clone.style.height = h+'px'; clone.style.width = 'auto'; clone.style.maxWidth = '100%'; clone.style.margin = '0 auto';
+      }
+      fig.appendChild(clone);
+      if(cap.trim()){ const fc = document.createElement('figcaption'); fc.textContent = cap; fig.appendChild(fc); }
+      const p = img.closest('p');
+      if(p && p.childNodes.length===1) p.replaceWith(fig); else img.replaceWith(fig);
+    });
+    return tmp.innerHTML;
+  }
+
+  function showState(title, msg){
+    document.title = title + ' — Hridhaye Bir Singh';
+    $root.innerHTML =
+      '<div class="state"><h1>'+esc(title)+'</h1><p>'+msg+'</p>'+
+      '<div class="more-link"><a href="writing.html">← All writing</a></div></div>';
+  }
+
+  function renderArticle(a){
+    document.title = a.title.replace(/\*/g,'') + ' — Hridhaye Bir Singh';
+    const bodyHtml = renderBody(a.body || '');
+    $root.innerHTML =
+      '<div class="crumbs"><div class="wrap"><a href="writing.html">Writing</a><span>/</span>'+esc(a.category)+'</div></div>'+
+      '<header class="art-head">'+
+        '<div class="kicker">'+esc(a.category)+'</div>'+
+        '<h1>'+accentTitle(a.title)+'</h1>'+
+        (a.dek ? '<p class="dek">'+esc(a.dek)+'</p>' : '')+
+        '<div class="byline">'+
+          '<span class="author">By Hridhaye Bir Singh</span>'+
+          (a.date ? '<span>'+esc(a.date)+'</span>' : '')+
+          (a.readtime ? '<span>'+esc(a.readtime)+'</span>' : '')+
+        '</div>'+
+      '</header>'+
+      '<article class="body">'+bodyHtml+
+        '<div class="author-tag"><b>Hridhaye Bir Singh</b>is a writer and communications professional focusing on policy, culture, and public-facing content.</div>'+
+      '</article>'+
+      '<div class="more-link"><a href="writing.html">← All writing</a></div>';
+  }
+
+  if(!slug){
+    showState('No article selected', 'This page needs an article. Try browsing from the <a href="writing.html">writing archive</a>.');
+  } else {
+    fetch('articles.json?v=' + Date.now())
+      .then(r => { if(!r.ok) throw new Error('fetch'); return r.json(); })
+      .then(data => {
+        const a = (data.articles || []).find(x => x.slug === slug);
+        if(a) renderArticle(a);
+        else showState('Article not found', 'No piece with the slug <code>'+esc(slug)+'</code> exists yet.');
+      })
+      .catch(() => showState('Could not load articles',
+        'The article data could not be loaded. If you are opening this file directly from your computer, view it through the live site instead — browsers block loading <code>articles.json</code> from <code>file://</code> for security reasons.'));
+  }
+</script>
+</body>
+</html>
